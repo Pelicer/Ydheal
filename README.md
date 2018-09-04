@@ -9,3 +9,4 @@ It was built using Java, swing for it's design and MySQL server. In it you'll fi
 - User interactive design
 - Information flow
 - Hotsite using HTML, PHP and CSS
+- Well documentated application

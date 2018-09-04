@@ -1,0 +1,216 @@
+package view.jFrames;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Date;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import modelSuplerclasses.Cliente;
+import modelSuplerclasses.Visita;
+
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.JTextField;
+
+import org.joda.time.DateTime;
+
+import com.toedter.calendar.JDateChooser;
+
+import javax.swing.JTextArea;
+
+public class JFVisualizarvisita extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField tfnome;
+	private JTextField tfendereco;
+	private JTextField tfhorario;
+	private JTextField tftelefone;
+	private JTextField textField;
+
+	/**
+	 * Launch the application.
+	 */
+
+	
+	/**
+	 * Create the frame.
+	 */
+	public JFVisualizarvisita(final Visita visita) {
+		
+				
+		String x = "Visita do cliente: "+visita.getNome();
+		setTitle(x);
+		
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 434, 371);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblNome = new JLabel("Nome:");
+		lblNome.setBounds(10, 24, 46, 14);
+		contentPane.add(lblNome);
+		
+		JLabel lblEndereo = new JLabel("Endere\u00E7o:");
+		lblEndereo.setBounds(10, 59, 67, 14);
+		contentPane.add(lblEndereo);
+		
+		JLabel lblTelefone = new JLabel("Telefone:");
+		lblTelefone.setBounds(10, 96, 67, 14);
+		contentPane.add(lblTelefone);
+		
+		JLabel lblDiaDaVisita = new JLabel("Dia da visita:");
+		lblDiaDaVisita.setBounds(10, 136, 79, 14);
+		contentPane.add(lblDiaDaVisita);
+		
+		JLabel lblHorrio = new JLabel("Hor\u00E1rio:");
+		lblHorrio.setBounds(266, 136, 67, 14);
+		contentPane.add(lblHorrio);
+		
+		JLabel lblObservao = new JLabel("Observa\u00E7\u00E3o:");
+		lblObservao.setBounds(10, 174, 79, 14);
+		contentPane.add(lblObservao);
+		
+		tfnome = new JTextField();
+		tfnome.setBounds(87, 21, 317, 20);
+		contentPane.add(tfnome);
+		tfnome.setColumns(10);
+		
+		tfendereco = new JTextField();
+		tfendereco.setBounds(87, 56, 317, 20);
+		contentPane.add(tfendereco);
+		tfendereco.setColumns(10);
+		
+		tfhorario = new JTextField();
+		tfhorario.setBounds(321, 133, 83, 20);
+		contentPane.add(tfhorario);
+		tfhorario.setColumns(10);
+		
+		tftelefone = new JTextField();
+		tftelefone.setBounds(87, 93, 136, 20);
+		contentPane.add(tftelefone);
+		tftelefone.setColumns(10);
+		
+		JButton btnFechar = new JButton("Fechar");
+		btnFechar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+				dispose();
+			}
+		});
+		btnFechar.setBounds(231, 295, 89, 23);
+		contentPane.add(btnFechar);
+		
+		JButton btnAlterar = new JButton("Alterar");
+		btnAlterar.setBounds(87, 295, 89, 23);
+		contentPane.add(btnAlterar);
+		setLocationRelativeTo(null);
+		
+		textField = new JTextField();
+		textField.setBounds(87, 133, 156, 20);
+		contentPane.add(textField);
+		textField.setColumns(10);
+		
+		JTextArea taobservacao = new JTextArea();
+		taobservacao.setBounds(87, 174, 317, 99);
+		contentPane.add(taobservacao);
+		
+		
+		
+		tfnome.setText(visita.getNome());
+		
+		tfendereco.setText(visita.getEndereco());
+		
+		tfhorario.setText(visita.getHorarioVisita());
+		
+		tftelefone.setText(visita.getTelefone());
+		
+		textField.setText(visita.getDataVisita());
+		
+		taobservacao.setText(visita.getObservacao());
+		
+		
+		tfnome.setEditable(false);
+		tfendereco.setEditable(false);
+		tfhorario.setEditable(false);
+		tftelefone.setEditable(false);
+		textField.setEditable(false);
+		taobservacao.setEditable(false);
+		
+		
+		
+		btnAlterar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+				tfnome.setEditable(true);
+				tfendereco.setEditable(true);
+				tfhorario.setEditable(true);
+				tftelefone.setEditable(true);
+				textField.setEditable(true);
+				taobservacao.setEditable(true);
+				
+				btnAlterar.setVisible(false);
+				
+				JButton btnAlterar = new JButton("Salvar");
+				btnAlterar.setBounds(87, 295, 89, 23);
+				contentPane.add(btnAlterar);
+				setLocationRelativeTo(null);
+				
+				btnAlterar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
+						//pega o valor alterado
+						
+						visita.setDataVisita(textField.getText());
+						
+						visita.setEndereco(tfendereco.getText());
+						
+						visita.setHorarioVisita(tfhorario.getText());
+						
+						visita.setNome(tfnome.getText());
+						
+						visita.setObservacao(taobservacao.getText());
+						
+						visita.setTelefone(tftelefone.getText());
+						
+						
+						// da os valores alterados para parecer que atualizou rs
+						tfnome.setText(visita.getNome());
+						
+						tfendereco.setText(visita.getEndereco());
+						
+						tfhorario.setText(visita.getHorarioVisita());
+						
+						tftelefone.setText(visita.getTelefone());
+						
+						textField.setText(visita.getDataVisita());
+						
+						taobservacao.setText(visita.getObservacao());
+						
+						String comando = "UPDATE tbl_visita SET visita_data = '" + textField.getText() +"', visita_horario = '"+tfhorario.getText() +"', visita_nome = '"+ tfnome.getText() + "', visita_endereco = '"+tfendereco.getText() + "', visita_telefone = '" +tftelefone.getText() +"', visita_observacao = '"+taobservacao.getText()  + "' WHERE visita_id = "+ visita.getId()  + ";";
+						
+						
+						
+																															
+						
+						
+						
+					}
+				});
+								
+			}
+		});
+		
+		
+		
+		
+		
+		
+	}
+}

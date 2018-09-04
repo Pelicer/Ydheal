@@ -1,0 +1,18 @@
+package model;
+
+import org.joda.time.DateTime;
+
+public class Cliente {
+	//Atributos
+	private int id;
+	private DateTime dataNascimento;
+	private String nome;
+	private String sobrenome;
+	private String telefone;
+	private String email;
+	private String endereco;
+	private String cep;
+	private String rg;
+	private String cpf;
+	
+}

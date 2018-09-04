@@ -1,0 +1,63 @@
+package modelSuplerclasses;
+
+import org.joda.time.DateTime;
+
+public class Visita {
+	//Atributos
+	private int id;
+	private int status;
+	private DateTime horarioVisita;
+	private DateTime dataVisita;
+	
+	//Construtores
+	
+	public Visita(int id, int status, DateTime horarioVisita,
+			DateTime dataVisita) {
+		this.id = id;
+		this.status = status;
+		this.horarioVisita = horarioVisita;
+		this.dataVisita = dataVisita;
+	}
+	
+	//Metodos de acesso
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public DateTime getHorarioVisita() {
+		return horarioVisita;
+	}
+
+	public void setHorarioVisita(DateTime horarioVisita) {
+		this.horarioVisita = horarioVisita;
+	}
+
+	public DateTime getDataVisita() {
+		return dataVisita;
+	}
+
+	public void setDataVisita(DateTime dataVisita) {
+		this.dataVisita = dataVisita;
+	}
+	
+	//Funçao da classe
+	
+	public void finalizarVisita() {
+		//Ainda não especificado como irá funcionar
+	}
+	
+	
+}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.wb.internal.core.model.util.RenameConvertSupport$RenameDialog">
+		<item value="697" key="x"/>
+		<item value="525" key="width"/>
+		<item value="379" key="y"/>
+		<item value="281" key="height"/>
+	</section>
+	<section name="org.eclipse.wb.internal.core.editor.errors.report2.CreateReportDialog">
+		<item value="697" key="x"/>
+		<item value="525" key="width"/>
+		<item value="357" key="y"/>
+		<item value="325" key="height"/>
+	</section>
+	<section name="org.eclipse.wb.internal.core.model.property.order.ReorderDialog">
+		<item value="700" key="x"/>
+		<item value="520" key="width"/>
+		<item value="337" key="y"/>
+		<item value="366" key="height"/>
+	</section>
+	<section name="org.eclipse.wb.internal.core.editor.palette.dialogs.ImportArchiveDialog">
+		<item value="697" key="x"/>
+		<item value="583" key="width"/>
+		<item value="299" key="y"/>
+		<item value="442" key="height"/>
+		<list key="HISTORY_JAR_LIST">
+			<item value="C:\eclipse\libraries\jcalendar-1.4\lib\jcalendar-1.4.jar"/>
+			<item value="C:\Users\Allan\Dropbox\TCC\eclipse\libraries\jcalendar-1.4\lib\jcalendar-1.4.jar"/>
+		</list>
+	</section>
+	<section name="org.eclipse.wb.internal.core.editor.palette.dialogs.PaletteManagerDialog">
+		<item value="697" key="x"/>
+		<item value="525" key="width"/>
+		<item value="262" key="y"/>
+		<item value="516" key="height"/>
+	</section>
+	<section name="org.eclipse.wb.internal.core.model.property.editor.string.StringPropertyDialog">
+		<item value="695" key="x"/>
+		<item value="530" key="width"/>
+		<item value="347" key="y"/>
+		<item value="346" key="height"/>
+	</section>
+	<section name="org.eclipse.wb.internal.core.editor.palette.dialogs.CategoryAddDialog">
+		<item value="697" key="x"/>
+		<item value="525" key="width"/>
+		<item value="325" key="y"/>
+		<item value="389" key="height"/>
+	</section>
+</section>

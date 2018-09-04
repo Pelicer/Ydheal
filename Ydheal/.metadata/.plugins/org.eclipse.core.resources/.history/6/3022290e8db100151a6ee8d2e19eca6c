@@ -1,0 +1,133 @@
+package view.jFrames;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import java.awt.Font;
+import javax.swing.JButton;
+import javax.swing.SwingConstants;
+import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class JFOrcamento extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
+
+	/**
+	 * Create the frame.
+	 */
+	public JFOrcamento() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 1211, 809);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 248, 946, 511);
+		contentPane.add(scrollPane);
+		
+		JLabel label_7 = new JLabel("Registros Encontrados");
+		label_7.setBounds(1005, 102, 141, 14);
+		contentPane.add(label_7);
+		
+		JLabel label_6 = new JLabel("0");
+		label_6.setBounds(1100, 76, 46, 14);
+		contentPane.add(label_6);
+		label_6.setHorizontalAlignment(SwingConstants.CENTER);
+		label_6.setForeground(new Color(0, 128, 0));
+		
+		JLabel label = new JLabel("C\u00F3digo:");
+		label.setBounds(272, 3, 55, 14);
+		contentPane.add(label);
+		
+		JLabel label_2 = new JLabel("Endere\u00E7o:");
+		label_2.setBounds(272, 37, 67, 14);
+		contentPane.add(label_2);
+		
+		textField_2 = new JTextField();
+		textField_2.setBounds(345, 34, 336, 20);
+		contentPane.add(textField_2);
+		textField_2.setColumns(10);
+		
+		textField = new JTextField();
+		textField.setBounds(345, 0, 86, 20);
+		contentPane.add(textField);
+		textField.setColumns(10);
+		
+		JLabel label_1 = new JLabel("Nome:");
+		label_1.setBounds(441, 3, 46, 14);
+		contentPane.add(label_1);
+		
+		textField_1 = new JTextField();
+		textField_1.setBounds(479, 0, 202, 20);
+		contentPane.add(textField_1);
+		textField_1.setColumns(10);
+		
+		textField_4 = new JTextField();
+		textField_4.setBounds(768, 34, 121, 20);
+		contentPane.add(textField_4);
+		textField_4.setColumns(10);
+		
+		JLabel label_5 = new JLabel("CPF:");
+		label_5.setBounds(712, 37, 46, 14);
+		contentPane.add(label_5);
+		
+		JLabel label_4 = new JLabel("RG:");
+		label_4.setBounds(712, 3, 46, 14);
+		contentPane.add(label_4);
+		
+		textField_3 = new JTextField();
+		textField_3.setBounds(768, 0, 121, 20);
+		contentPane.add(textField_3);
+		textField_3.setColumns(10);
+		
+		JButton button = new JButton("Novo");
+		button.setBounds(438, 3, 100, 23);
+		contentPane.add(button);
+		button.setToolTipText("Criar Novo Registro");
+		
+		JButton button_1 = new JButton("Filtrar");
+		button_1.setBounds(554, 3, 100, 23);
+		contentPane.add(button_1);
+		button_1.setToolTipText("Filtrar Registros");
+		
+		JButton button_2 = new JButton("Limpar");
+		button_2.setBounds(664, 3, 100, 23);
+		contentPane.add(button_2);
+		button_2.setToolTipText("Limpar Filtros");
+		
+		JButton button_3 = new JButton("Imprimir");
+		button_3.setBounds(774, 3, 100, 23);
+		contentPane.add(button_3);
+		button_3.setToolTipText("Imprimir");
+		
+		JButton button_4 = new JButton("Alterar");
+		button_4.setBounds(884, 3, 100, 23);
+		contentPane.add(button_4);
+		button_4.setToolTipText("Alterar Registro");
+		
+		JButton button_5 = new JButton("Excluir");
+		button_5.setBounds(996, 3, 89, 23);
+		contentPane.add(button_5);
+		button_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		button_5.setToolTipText("Excluir Registro");
+	}
+}

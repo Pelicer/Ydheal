@@ -1,0 +1,97 @@
+package view.jFrames;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import java.awt.Font;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+
+public class JFModelos extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField textField;
+	private JTextField textField_1;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					JFModelos frame = new JFModelos();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public JFModelos() {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 992, 740);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setLocationRelativeTo(null);
+		contentPane.setLayout(null);
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setLayout(null);
+		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel.setBounds(10, 11, 966, 88);
+		contentPane.add(panel);
+		
+		JLabel label = new JLabel("C\u00F3digo:");
+		label.setBounds(204, 36, 55, 14);
+		panel.add(label);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(277, 33, 86, 20);
+		panel.add(textField);
+		
+		JLabel lblDescrio = new JLabel("Descri\u00E7\u00E3o:");
+		lblDescrio.setBounds(373, 36, 80, 14);
+		panel.add(lblDescrio);
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBounds(453, 33, 202, 20);
+		panel.add(textField_1);
+		
+		JLabel lblModelos = new JLabel("Modelos");
+		lblModelos.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblModelos.setBounds(10, 6, 343, 79);
+		panel.add(lblModelos);
+		
+		JLabel lblCategoria = new JLabel("Categoria: ");
+		lblCategoria.setBounds(682, 36, 70, 14);
+		panel.add(lblCategoria);
+		
+		JComboBox cbcategoria = new JComboBox();
+		cbcategoria.setModel(new DefaultComboBoxModel(new String[] {"", "Categoria 1", "Categoria 2", "Categoria 3"}));
+		cbcategoria.setBounds(762, 33, 128, 20);
+		panel.add(cbcategoria);
+		setTitle("Modelos");
+		
+		
+	
+	
+		
+	
+	}
+}

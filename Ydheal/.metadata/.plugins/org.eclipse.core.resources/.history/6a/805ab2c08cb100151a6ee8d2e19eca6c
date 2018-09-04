@@ -1,0 +1,148 @@
+package view.jFrames;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import java.awt.Font;
+import javax.swing.JButton;
+import javax.swing.SwingConstants;
+import javax.swing.JScrollPane;
+
+public class JFOrcamento extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
+
+	/**
+	 * Create the frame.
+	 */
+	public JFOrcamento() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 1211, 809);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setLayout(null);
+		panel.setBounds(37, 26, 966, 691);
+		contentPane.add(panel);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setLayout(null);
+		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_1.setBounds(0, 0, 966, 88);
+		panel.add(panel_1);
+		
+		JLabel label = new JLabel("C\u00F3digo:");
+		label.setBounds(207, 11, 55, 14);
+		panel_1.add(label);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(280, 8, 86, 20);
+		panel_1.add(textField);
+		
+		JLabel label_1 = new JLabel("Nome:");
+		label_1.setBounds(376, 11, 46, 14);
+		panel_1.add(label_1);
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBounds(414, 8, 202, 20);
+		panel_1.add(textField_1);
+		
+		JLabel label_2 = new JLabel("Endere\u00E7o:");
+		label_2.setBounds(207, 45, 67, 14);
+		panel_1.add(label_2);
+		
+		textField_2 = new JTextField();
+		textField_2.setColumns(10);
+		textField_2.setBounds(280, 42, 336, 20);
+		panel_1.add(textField_2);
+		
+		JLabel label_3 = new JLabel("Clientes");
+		label_3.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		label_3.setBounds(41, -54, 343, 79);
+		panel_1.add(label_3);
+		
+		JLabel label_4 = new JLabel("RG:");
+		label_4.setBounds(647, 11, 46, 14);
+		panel_1.add(label_4);
+		
+		textField_3 = new JTextField();
+		textField_3.setColumns(10);
+		textField_3.setBounds(703, 8, 121, 20);
+		panel_1.add(textField_3);
+		
+		JLabel label_5 = new JLabel("CPF:");
+		label_5.setBounds(647, 45, 46, 14);
+		panel_1.add(label_5);
+		
+		textField_4 = new JTextField();
+		textField_4.setColumns(10);
+		textField_4.setBounds(703, 42, 121, 20);
+		panel_1.add(textField_4);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setLayout(null);
+		panel_2.setBounds(0, 88, 966, 592);
+		panel.add(panel_2);
+		
+		JButton button = new JButton("Novo");
+		button.setToolTipText("Criar Novo Registro");
+		button.setBounds(122, 11, 100, 23);
+		panel_2.add(button);
+		
+		JButton button_1 = new JButton("Filtrar");
+		button_1.setToolTipText("Filtrar Registros");
+		button_1.setBounds(238, 11, 100, 23);
+		panel_2.add(button_1);
+		
+		JButton button_2 = new JButton("Limpar");
+		button_2.setToolTipText("Limpar Filtros");
+		button_2.setBounds(348, 11, 100, 23);
+		panel_2.add(button_2);
+		
+		JButton button_3 = new JButton("Imprimir");
+		button_3.setToolTipText("Imprimir");
+		button_3.setBounds(458, 11, 100, 23);
+		panel_2.add(button_3);
+		
+		JButton button_4 = new JButton("Alterar");
+		button_4.setToolTipText("Alterar Registro");
+		button_4.setBounds(568, 11, 100, 23);
+		panel_2.add(button_4);
+		
+		JButton button_5 = new JButton("Excluir");
+		button_5.setToolTipText("Excluir Registro");
+		button_5.setBounds(680, 11, 89, 23);
+		panel_2.add(button_5);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(744, 148, 946, 511);
+		contentPane.add(scrollPane);
+		
+		JLabel label_7 = new JLabel("Registros Encontrados");
+		label_7.setBounds(1005, 102, 141, 14);
+		contentPane.add(label_7);
+		
+		JLabel label_6 = new JLabel("0");
+		label_6.setBounds(1100, 76, 46, 14);
+		contentPane.add(label_6);
+		label_6.setHorizontalAlignment(SwingConstants.CENTER);
+		label_6.setForeground(new Color(0, 128, 0));
+	}
+}

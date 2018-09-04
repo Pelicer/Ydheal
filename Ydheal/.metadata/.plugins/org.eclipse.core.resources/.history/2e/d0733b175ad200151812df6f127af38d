@@ -1,0 +1,312 @@
+package view.jDialogs;
+
+import java.awt.Font;
+import java.awt.List;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JSeparator;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+import controller.ConexaoMySQL;
+import modelHerancas.Pedido;
+
+public class JFCOrcamento_financeiro extends JFrame {
+	
+	Pedido p = new Pedido();
+	
+	private JTextField tfCustoMateriais;
+	private JTextField tfMaoDeObra;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+
+	}
+
+	/**
+	 * Create the dialog.
+	 */
+	public JFCOrcamento_financeiro() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\wordf\\Dropbox\\Backup\\Escola\\ETEC - 2015\\TCC\\workspace\\Serralheria\\src\\resourcers\\icon\\16x\\orcamento.png"));
+		setTitle("Cadastro de Or\u00E7amento");
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 1090, 590);
+		getContentPane().setLayout(null);
+		{
+			JSeparator separator = new JSeparator();
+			separator.setBounds(0, 61, 1074, 2);
+			getContentPane().add(separator);
+		}
+		{
+			JLabel lblCadastroDeOramento = new JLabel("Cadastro de Or\u00E7amento - Financeiro");
+			lblCadastroDeOramento.setIcon(new ImageIcon("C:\\Users\\wordf\\Dropbox\\Backup\\Escola\\ETEC - 2015\\TCC\\workspace\\Serralheria\\src\\resourcers\\icon\\50px\\orcamento.png"));
+			lblCadastroDeOramento.setFont(new Font("Tahoma", Font.PLAIN, 18));
+			lblCadastroDeOramento.setBounds(11, 0, 1033, 50);
+			getContentPane().add(lblCadastroDeOramento);
+		}
+		{
+			List listaMateriais = new List();
+			listaMateriais.setBounds(10, 109, 230, 349);
+			getContentPane().add(listaMateriais);
+		}
+		{
+			JButton btnFinalizarPedido = new JButton("Finalizar Pedido");
+			btnFinalizarPedido.setToolTipText("Finalizar Pedido");
+			btnFinalizarPedido.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					p.setId(id);
+					
+					try {
+						Class.forName("com.mysql.jdbc.Driver");
+
+						// cria a conecxão
+						java.sql.Connection con = ConexaoMySQL
+								.getConexaoMySQL();
+
+						java.sql.Statement st = con.createStatement();
+
+						// formata data para padrão americano
+						SimpleDateFormat Formatodataam = new SimpleDateFormat(
+								"yyyy/MM/dd");
+						
+						double numero = Double.parseDouble(tfnumero.getText());
+						double cep = Double.parseDouble(tfcep.getText());
+						double cpf = Double.parseDouble(tfCpf.getText());
+						double rg = Double.parseDouble(tfRg.getText());
+						double telefone = Double.parseDouble(tfTelefone.getText());
+						double telefone2 = Double.parseDouble(tfTelefone2.getText());
+						
+						
+						st.execute("insert into tbl_cliente (cliente_numero, cliente_cep, cliente_datanasc, cliente_sobrenome, cliente_nome, cliente_cpf, cliente_rg, cliente_endereco, cliente_bairro, cliente_complemento, cliente_telefone1, cliente_telefone2,"
+								+ " cliente_email) values ('"
+								+ numero
+								+ "',  '"
+								+ cep
+								+ "', '"
+								+ Formatodataam.format(dateChooser.getDate())
+								+ "', '"
+								+ tfsobrenome.getText()
+								+ "', '"
+								+ tfNome.getText()
+								+ "', '"
+								+ cpf
+								+ "', '"
+								+ rg
+								+ "', '"
+								+ tfEndereco.getText()
+								+ "', '"
+								+ tfBairro.getText()
+								+ "',  '"
+								+ tfComplemento.getText()
+								+ "', '"
+								+ telefone
+								+ "',  '"
+								+ telefone2
+								+ "',  '"
+								+ tfEmail.getText() + "');");
+
+						// fala que executou com sucesso
+						JOptionPane.showMessageDialog(null,
+								"Cliente cadastrado com sucesso!");
+
+						st.close();
+						// fecha a concxão
+						con.close();
+
+						// fecha a tela após sucesso
+						dispose();
+
+					} catch (SQLException erroBanco) {
+						JOptionPane.showMessageDialog(null,
+								"Falha na conexão com o banco de dados.",
+								"WARNING!", JOptionPane.WARNING_MESSAGE);
+						erroBanco.printStackTrace();
+				}
+			});
+			btnFinalizarPedido.setBounds(384, 520, 140, 20);
+			getContentPane().add(btnFinalizarPedido);
+		}
+		{
+			JButton button = new JButton("Cancelar");
+			button.setToolTipText("Cancelar");
+			button.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+				}
+			});
+			button.setBounds(531, 520, 140, 20);
+			getContentPane().add(button);
+		}
+		{
+			JLabel lblMateriais = new JLabel("Materiais");
+			lblMateriais.setBounds(10, 67, 201, 36);
+			getContentPane().add(lblMateriais);
+		}
+		{
+			JLabel lblNewLabel = new JLabel("Pedido");
+			lblNewLabel.setBounds(252, 67, 120, 36);
+			getContentPane().add(lblNewLabel);
+		}
+		{
+			JLabel lblDescrioDoPedido = new JLabel("Descri\u00E7\u00E3o do Produto:");
+			lblDescrioDoPedido.setBounds(252, 109, 180, 36);
+			getContentPane().add(lblDescrioDoPedido);
+		}
+		{
+			JLabel lblCrusto = new JLabel("Custo");
+			lblCrusto.setBounds(252, 195, 120, 20);
+			getContentPane().add(lblCrusto);
+		}
+		{
+			JLabel lblCustoTotalDos = new JLabel("Custo Total Dos Materiais:");
+			lblCustoTotalDos.setBounds(252, 229, 150, 20);
+			getContentPane().add(lblCustoTotalDos);
+		}
+		{
+			tfCustoMateriais = new JTextField();
+			tfCustoMateriais.setBounds(442, 229, 200, 20);
+			getContentPane().add(tfCustoMateriais);
+			tfCustoMateriais.setColumns(10);
+		}
+		{
+			tfMaoDeObra = new JTextField();
+			tfMaoDeObra.setBounds(442, 260, 200, 20);
+			getContentPane().add(tfMaoDeObra);
+			tfMaoDeObra.setColumns(10);
+		}
+		{
+			JLabel lblMoDeObra = new JLabel("M\u00E3o de Obra:");
+			lblMoDeObra.setBounds(252, 260, 75, 20);
+			getContentPane().add(lblMoDeObra);
+		}
+		{
+			JLabel lblDescrio = new JLabel("Descri\u00E7\u00E3o do Pedido");
+			lblDescrio.setBounds(252, 323, 380, 20);
+			getContentPane().add(lblDescrio);
+		}
+		{
+			JLabel lblPagamento = new JLabel("Pagamento");
+			lblPagamento.setBounds(664, 75, 90, 20);
+			getContentPane().add(lblPagamento);
+		}
+		{
+			JLabel lblFormaDePagamento = new JLabel("Forma de Pagamento:");
+			lblFormaDePagamento.setBounds(664, 111, 130, 20);
+			getContentPane().add(lblFormaDePagamento);
+		}
+		
+		JComboBox cbPagamento = new JComboBox();
+		cbPagamento.setModel(new DefaultComboBoxModel(new String[] {"Dinheiro", "Cheque", "Cart\u00E3o"}));
+		cbPagamento.setBounds(804, 109, 260, 20);
+		getContentPane().add(cbPagamento);
+		{
+			JSeparator separator = new JSeparator();
+			separator.setBounds(252, 182, 400, 2);
+			getContentPane().add(separator);
+		}
+		{
+			JSeparator separator = new JSeparator();
+			separator.setBounds(252, 310, 402, 2);
+			getContentPane().add(separator);
+		}
+		{
+			JSeparator separator = new JSeparator();
+			separator.setBounds(652, 310, 402, 2);
+			getContentPane().add(separator);
+		}
+		{
+			JLabel lblParcelamento = new JLabel("Parcelamento:");
+			lblParcelamento.setBounds(664, 141, 120, 20);
+			getContentPane().add(lblParcelamento);
+		}
+		{
+			JComboBox cbParcelamento = new JComboBox();
+			cbParcelamento.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4"}));
+			cbParcelamento.setBounds(804, 141, 260, 20);
+			getContentPane().add(cbParcelamento);
+		}
+		{
+			JLabel lblDetalhes = new JLabel("Detalhes Adicionais");
+			lblDetalhes.setBounds(664, 323, 120, 20);
+			getContentPane().add(lblDetalhes);
+		}
+		{
+			JSeparator separator = new JSeparator();
+			separator.setBounds(0, 492, 1074, 2);
+			getContentPane().add(separator);
+		}
+		{
+			JLabel lblTotalAPrazo = new JLabel("Total a Prazo:");
+			lblTotalAPrazo.setBounds(664, 168, 111, 20);
+			getContentPane().add(lblTotalAPrazo);
+		}
+		{
+			textField = new JTextField();
+			textField.setBounds(804, 168, 260, 20);
+			getContentPane().add(textField);
+			textField.setColumns(10);
+		}
+		{
+			JLabel lblJurosmensal = new JLabel("Juros (Mensal):");
+			lblJurosmensal.setBounds(664, 195, 111, 20);
+			getContentPane().add(lblJurosmensal);
+		}
+		{
+			textField_1 = new JTextField();
+			textField_1.setBounds(804, 197, 260, 20);
+			getContentPane().add(textField_1);
+			textField_1.setColumns(10);
+		}
+		{
+			JLabel lblValorFinal = new JLabel("Valor Final:");
+			lblValorFinal.setBounds(664, 245, 90, 50);
+			getContentPane().add(lblValorFinal);
+		}
+		{
+			textField_2 = new JTextField();
+			textField_2.setBounds(804, 258, 260, 20);
+			getContentPane().add(textField_2);
+			textField_2.setColumns(10);
+		}
+		{
+			JSeparator separator = new JSeparator();
+			separator.setOrientation(SwingConstants.VERTICAL);
+			separator.setBounds(652, 61, 2, 433);
+			getContentPane().add(separator);
+		}
+		{
+			JTextArea descricaoPedido = new JTextArea();
+			descricaoPedido.setBounds(396, 115, 219, 59);
+			getContentPane().add(descricaoPedido);
+		}
+		{
+			JTextArea detalhesPedido = new JTextArea();
+			detalhesPedido.setBounds(262, 354, 360, 101);
+			getContentPane().add(detalhesPedido);
+		}
+		{
+			JTextArea detalhesadicionais = new JTextArea();
+			detalhesadicionais.setBounds(674, 354, 360, 101);
+			getContentPane().add(detalhesadicionais);
+		}
+	}
+}

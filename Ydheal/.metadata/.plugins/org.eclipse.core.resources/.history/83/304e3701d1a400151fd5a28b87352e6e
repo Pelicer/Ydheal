@@ -1,0 +1,50 @@
+package controller;
+
+import java.text.SimpleDateFormat;
+
+import javax.swing.JOptionPane;
+
+public class Principal {
+
+	public static void main(String[] args) {
+
+		try   
+		 {   
+			   Class.forName("com.mysql.jdbc.Driver");   
+			
+			//cria a conecxão
+			   java.sql.Connection con = ConexaoMySQL.getConexaoMySQL();
+			   
+			// fla q a conecxao esta ok
+				JOptionPane.showMessageDialog(null,"Conexao OK");   
+			
+			// não sei  oq isso faz kk	
+			java.sql.Statement st = con.createStatement();   
+			
+	
+			
+			// executa a String SQL 
+			st.execute("select * from tbl_visita; ");   
+			
+			// fala q executou co sucesso
+			JOptionPane.showMessageDialog(null,"Sucesso na consulta");   
+			
+			//fecha o não sei  oque
+			st.close();   
+			// fecha a concxão
+			con.close();   
+			 
+			 }
+			
+			catch (Exception e){   
+				
+				JOptionPane.showMessageDialog(null,"Falha no driver");   
+				
+				e.printStackTrace();  
+				
+			return;  
+	
+			}
+	
+	}
+}

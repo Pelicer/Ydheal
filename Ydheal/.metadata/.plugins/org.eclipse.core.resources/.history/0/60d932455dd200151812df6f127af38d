@@ -1,0 +1,16 @@
+package modelSuplerclasses;
+
+public class Orcamento {
+	// Atributos
+	private int id;
+	private int modeloId;
+	private int visitaId;
+	private Double metodoPagamento;
+	private Double maoDeObra;
+	private String formaPagamento;
+	private Double valorTotal;
+	private Double totalPrazo;
+	private Double juros;
+	private Double parcelamento;
+
+}

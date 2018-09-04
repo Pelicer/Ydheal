@@ -1,0 +1,369 @@
+package view.jFrames;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+
+import java.awt.Color;
+
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
+import java.awt.Font;
+
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.JScrollPane;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+
+import javax.swing.JTable;
+
+import ComandosMysql.ConexaoMySQL;
+
+public class JFModelos extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField tfcodigo;
+	private JTextField tfnome;
+	private JTable tabletbl_modelos;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					JFModelos frame = new JFModelos();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public JFModelos() {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 992, 740);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setLocationRelativeTo(null);
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		contentPane.setLayout(new BorderLayout(0, 0));
+	
+		
+		
+		// cria  atabela 
+		
+		DefaultTableModel modelotbl_modelo = new DefaultTableModel();
+		
+		
+		
+		JPanel panel3 = new JPanel();
+		contentPane.add(panel3, BorderLayout.CENTER);
+		panel3.setLayout(null);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setLayout(null);
+		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_1.setBounds(0, 0, 966, 88);
+		panel3.add(panel_1);
+		
+		JLabel label = new JLabel("C\u00F3digo:");
+		label.setBounds(212, 37, 55, 14);
+		panel_1.add(label);
+		
+		tfcodigo = new JTextField();
+		tfcodigo.setColumns(10);
+		tfcodigo.setBounds(278, 34, 86, 20);
+		panel_1.add(tfcodigo);
+		
+		JLabel lblDescri = new JLabel("Nome:");
+		lblDescri.setBounds(387, 37, 73, 14);
+		panel_1.add(lblDescri);
+		
+		tfnome = new JTextField();
+		tfnome.setColumns(10);
+		tfnome.setBounds(438, 34, 202, 20);
+		panel_1.add(tfnome);
+		
+		JLabel lblModelo = new JLabel("Modelo");
+		lblModelo.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblModelo.setBounds(10, 6, 343, 79);
+		panel_1.add(lblModelo);
+		
+		JLabel lblCategoria = new JLabel("Categoria: ");
+		lblCategoria.setBounds(655, 37, 73, 14);
+		panel_1.add(lblCategoria);
+		
+		JComboBox cbcategoria = new JComboBox();
+		cbcategoria.setBounds(727, 34, 132, 20);
+		panel_1.add(cbcategoria);
+		
+		JPanel panel = new JPanel();
+		panel.setLayout(null);
+		panel.setBounds(0, 88, 966, 592);
+		panel3.add(panel);
+		
+		JButton btnnovo = new JButton("Novo");
+		btnnovo.setToolTipText("Criar Novo Registro");
+		btnnovo.setBounds(122, 11, 100, 23);
+		panel.add(btnnovo);
+		
+		JButton bntfiltrar = new JButton("Filtrar");
+		bntfiltrar.setToolTipText("Filtrar Registros");
+		bntfiltrar.setBounds(238, 11, 100, 23);
+		panel.add(bntfiltrar);
+		
+		JButton bntlimpar = new JButton("Limpar");
+		bntlimpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			
+				tfnome.setText("");
+				tfcodigo.setText("");
+				cbcategoria.setSelectedIndex(0);
+				
+			}
+		});
+		bntlimpar.setToolTipText("Limpar Filtros");
+		bntlimpar.setBounds(348, 11, 100, 23);
+		panel.add(bntlimpar);
+		
+		JButton bntimprimir = new JButton("Imprimir");
+		bntimprimir.setToolTipText("Imprimir");
+		bntimprimir.setBounds(458, 11, 100, 23);
+		panel.add(bntimprimir);
+		
+		JButton bntalterar = new JButton("Alterar");
+		bntalterar.setToolTipText("Alterar Registro");
+		bntalterar.setBounds(568, 11, 100, 23);
+		panel.add(bntalterar);
+		
+		JLabel lblregistrosencontrados = new JLabel("0");
+		lblregistrosencontrados.setHorizontalAlignment(SwingConstants.CENTER);
+		lblregistrosencontrados.setForeground(new Color(0, 128, 0));
+		lblregistrosencontrados.setBounds(740, 45, 46, 14);
+		panel.add(lblregistrosencontrados);
+		
+		JButton btnexcluir = new JButton("Excluir");
+		btnexcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				// pede para confirmar a resposta
+				int resposta = JOptionPane.showConfirmDialog(null,
+						"Deseja realmente excluir os modelos selecionados?",
+						"Confirmar exclusões ", JOptionPane.YES_NO_OPTION);
+
+				// chaca resposta e faz o de acordo
+				if (resposta == JOptionPane.YES_OPTION) {
+
+					// pega as linhas selecionadas
+					int x[] = tabletbl_modelos.getSelectedRows();
+
+					// exclui as linhas selecionadas
+
+					int id = 0;
+
+					for (int i = x.length - 1; i >= 0; i--) {
+
+						// obtem o id da linha selecionada
+						id = Integer.parseInt(String.valueOf(modelotbl_modelo
+								.getValueAt(x[i], 0)));
+
+						modelotbl_modelo.removeRow(x[i]);
+
+						String comando = "DELETE FROM tbl_modelo WHERE modelo_id = "
+								+ id + ";";
+
+						try {
+
+							Class.forName("com.mysql.jdbc.Driver");
+
+							// cria a conecxão
+							java.sql.Connection con = ConexaoMySQL
+									.getConexaoMySQL();
+
+							// não sei oq isso faz kk
+							java.sql.Statement st = con.createStatement();
+
+							st.execute(comando);
+
+							st.close();
+							con.close();
+
+						}// fim do try
+						catch (Exception ee) {
+							ee.printStackTrace();
+							JOptionPane.showMessageDialog(null,
+									"Falha na exclusão");
+						}
+
+						lblregistrosencontrados.setText(String.valueOf(Integer
+								.parseInt(lblregistrosencontrados.getText()) - 1));
+
+					}// fecha o for de exclusão
+
+				} else if (resposta == JOptionPane.NO_OPTION) {
+					// Usuário clicou em não. Executar o código correspondente.
+
+				}
+
+				
+			}
+		});
+		btnexcluir.setToolTipText("Excluir Registro");
+		btnexcluir.setBounds(680, 11, 89, 23);
+		panel.add(btnexcluir);
+		
+		JLabel label_2 = new JLabel("Registros Encontrados");
+		label_2.setBounds(793, 45, 141, 14);
+		panel.add(label_2);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 70, 946, 511);
+		panel.add(scrollPane);
+		
+		
+		// cria os titulos
+
+				{
+					modelotbl_modelo.addColumn("Cod.");
+					modelotbl_modelo.addColumn("Nome");		
+					modelotbl_modelo.addColumn("Descrição");
+					modelotbl_modelo.addColumn("Custo");
+					modelotbl_modelo.addColumn("Categoria");
+							
+							
+				}
+		
+		
+		
+		tabletbl_modelos = new JTable(modelotbl_modelo){
+
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+
+		};
+		
+		scrollPane.setViewportView(tabletbl_modelos);
+		setTitle("Modelos");
+		
+		
+		// impede que as colunas sejam reordemadas
+				tabletbl_modelos.getTableHeader().setReorderingAllowed(false);
+	
+				
+				// no fim da moddificação da célula editavel, vem a deteqção de evento
+				// de cliq dublo em um registro da jtable.
+				tabletbl_modelos.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent e) {
+						if (e.getClickCount() == 2) {
+							
+						}
+					}
+				}
+			);
+
+				
+		
+	
+	}// fim da claase da tela
+	
+	
+	
+	public void Carregar_tela_cliente() {
+
+		SimpleDateFormat Formatodatabr = new SimpleDateFormat("dd/MM/yyyy");
+
+		String comando = "select cliente_id, cliente_nome, cliente_sobrenome, "
+				+ "cliente_numero, cliente_endereco, "
+				+ "cliente_telefone1, cliente_numero,"
+				+ " cliente_email from tbl_cliente;";
+
+		cont = 0;
+
+		try {
+
+			Class.forName("com.mysql.jdbc.Driver");
+
+			// cria a conecxão
+			java.sql.Connection con = ConexaoMySQL.getConexaoMySQL();
+
+			// não sei oq isso faz kk
+			java.sql.Statement st = con.createStatement();
+
+			ResultSet resultSet = st.executeQuery(comando);
+
+			while (resultSet.next()) {
+
+				String id = resultSet.getString("cliente_id");
+				String nome = resultSet.getString("cliente_nome");
+				String sobrenome = resultSet.getString("cliente_sobrenome");
+
+				String numero = resultSet.getString("cliente_numero");
+
+				String endereco = resultSet.getString("cliente_endereco");
+
+				String telefone1 = resultSet.getString("cliente_telefone1");
+
+				String email = resultSet.getString("cliente_email");
+
+				nome = (nome + " " + sobrenome);
+
+				cont = (cont + 1);
+
+				ModeloJTCli.addRow(new Object[] { id, nome, endereco, numero,
+						telefone1, email });
+
+			}
+
+			st.close();
+			con.close();
+
+		}// fim do try
+		catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Falha na consulta");
+		}
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}

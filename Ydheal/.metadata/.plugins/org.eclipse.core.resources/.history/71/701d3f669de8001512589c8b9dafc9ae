@@ -1,0 +1,303 @@
+package view.jFrames.cadastros;
+
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import modelHerancas.Pedido;
+import modelSuplerclasses.Cliente;
+import modelSuplerclasses.Orcamento;
+import modelSuplerclasses.Visita;
+import view.jDialogs.JDSelecionarBuscaClientes;
+import view.jDialogs.JDSelecionarBuscarOrcamentos;
+import view.jDialogs.JDSelecionarBuscarVisitas;
+import view.jFrames.JFClientes;
+import controller.ConexaoMySQL;
+import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class JFCPedido extends JDialog {
+
+	private JPanel contentPane;
+	private JTextField tfCliente;
+	private JTextField tfOrcamento;
+	private JTextField tfvisita;
+
+	Pedido p = new Pedido();
+	Orcamento o = new Orcamento();	
+	Cliente c = new Cliente();
+	Visita v = new Visita();
+	
+	/**
+	 * Create the frame.
+	 */
+	public JFCPedido() {
+		
+		setTitle("Cadastro Pedido");
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 390, 274);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+
+		JLabel lblCliente = new JLabel("Cliente:");
+		lblCliente.setBounds(10, 101, 125, 14);
+		contentPane.add(lblCliente);
+
+		JLabel lblOramento = new JLabel("Or\u00E7amento:");
+		lblOramento.setBounds(10, 132, 125, 14);
+		contentPane.add(lblOramento);
+
+		tfCliente = new JTextField();
+		tfCliente.setBounds(128, 98, 143, 20);
+		contentPane.add(tfCliente);
+		tfCliente.setColumns(10);
+
+		tfOrcamento = new JTextField();
+		tfOrcamento.setBounds(128, 129, 143, 20);
+		contentPane.add(tfOrcamento);
+		tfOrcamento.setColumns(10);
+
+		JButton btnCancelar = new JButton("Cancelar");
+		// Adicionando imagem.
+		Image imgCancelar = new ImageIcon(this.getClass().getResource("/16px/cancelar.png")).getImage();
+		btnCancelar.setIcon(new ImageIcon(imgCancelar));
+		;
+		btnCancelar.setToolTipText("Cancelar");
+		btnCancelar.setBounds(246, 198, 118, 20);
+		contentPane.add(btnCancelar);
+
+		JButton btnLimpar = new JButton("Limpar");
+		// Adicionando imagem.
+		Image imgLimpar = new ImageIcon(this.getClass().getResource("/16px/limpar.png")).getImage();
+		btnLimpar.setIcon(new ImageIcon(imgLimpar));
+		btnLimpar.setToolTipText("Limpar Campos");
+		btnLimpar.setBounds(128, 198, 118, 20);
+		contentPane.add(btnLimpar);
+
+		JButton btnSalvar = new JButton("Salvar");
+		// Adicionando imagem.
+		Image imgSalvar = new ImageIcon(this.getClass().getResource("/16px/ok.png")).getImage();
+		btnSalvar.setIcon(new ImageIcon(imgSalvar));
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+					try {
+			
+						// Criando conexão com o banco.
+						java.sql.Connection con = ConexaoMySQL.getConexaoMySQL();
+
+						java.sql.Statement st = null;
+
+						st = con.createStatement();
+
+						Pedido p = new Pedido();
+
+						// seta os ids
+						p.setClienteId(c.getId());
+						p.setVisitaid(v.getId());
+						p.setOrcamentoId(o.getId());
+						
+						
+						p.setHistorico("Pedido criado com orçamento, " + "\n" + " visita e cliente já adastrados " + "\n");
+						p.setNivel(2);
+						
+						
+						st.execute("update tbl_pedido set 	cliente_id = "+p.getClienteId()+", orcamento_id = "+p.getOrcamentoId()+", visita_id = "+p.getVisitaid()+", pedido_nivel = "+p.getNivel()+", pedido_historico = '"+p.getHistorico()+"';");
+
+
+						
+						// pedido cadastrado.
+						JOptionPane.showMessageDialog(null, "Pedido cadastrado com sucesso!");
+
+						st.close();
+						con.close();
+
+						
+						dispose();
+
+					} catch (SQLException erro2) {
+						
+						erro2.printStackTrace();
+					}
+
+				}
+			
+
+		});
+		btnSalvar.setToolTipText("Salvar Dados");
+		btnSalvar.setBounds(10, 198, 118, 20);
+		contentPane.add(btnSalvar);
+
+		JSeparator separator = new JSeparator();
+		separator.setBounds(0, 70, 374, 2);
+		contentPane.add(separator);
+
+		JLabel lblCadastroDePedido = new JLabel("Cadastro de Pedido");
+		// Adicionando imagem.
+		Image imgPedido = new ImageIcon(this.getClass().getResource("/50px/pedidos.png")).getImage();
+		lblCadastroDePedido.setIcon(new ImageIcon(imgPedido));
+		lblCadastroDePedido.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblCadastroDePedido.setBounds(10, 11, 343, 50);
+		contentPane.add(lblCadastroDePedido);
+
+		JLabel label = new JLabel("*");
+		label.setForeground(Color.RED);
+		label.setBackground(Color.RED);
+		label.setBounds(99, 101, 25, 14);
+		contentPane.add(label);
+
+		JLabel label_1 = new JLabel("*");
+		label_1.setForeground(Color.RED);
+		label_1.setBackground(Color.RED);
+		label_1.setBounds(99, 132, 25, 14);
+		contentPane.add(label_1);
+
+		JLabel lblCampos = new JLabel("* - Campos Obrigat\u00F3rios.");
+		lblCampos.setForeground(Color.RED);
+		lblCampos.setBackground(Color.RED);
+		lblCampos.setBounds(110, 52, 254, 14);
+		contentPane.add(lblCampos);
+
+		JLabel lblBuscar = new JLabel("Buscar/Novo");
+		lblBuscar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			
+				try {
+					JDSelecionarBuscaClientes frame = new JDSelecionarBuscaClientes(c);
+					frame.setModal(true);
+					frame.setVisible(true);
+				} catch (Exception ee) {
+					ee.printStackTrace();
+				}
+				
+				tfCliente.setText(c.getNome());
+				
+			}
+		});
+		lblBuscar.setBounds(288, 101, 76, 14);
+		contentPane.add(lblBuscar);
+
+		JLabel lblBuscarnovo = new JLabel("Buscar/Novo");
+		lblBuscarnovo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			
+				
+				try {
+					JDSelecionarBuscarOrcamentos frame = new JDSelecionarBuscarOrcamentos(o);
+					frame.setModal(true);
+					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+				} catch (Exception ee) {
+					ee.printStackTrace();
+				}
+				
+				tfOrcamento.setText(String.valueOf(o.getId()));
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			}
+		});
+		lblBuscarnovo.setBounds(288, 132, 76, 14);
+		contentPane.add(lblBuscarnovo);
+
+		JLabel lblVisita = new JLabel("Visita:");
+		lblVisita.setBounds(10, 157, 46, 14);
+		contentPane.add(lblVisita);
+
+		JLabel label_2 = new JLabel("*");
+		label_2.setForeground(Color.RED);
+		label_2.setBackground(Color.RED);
+		label_2.setBounds(99, 157, 25, 14);
+		contentPane.add(label_2);
+
+		tfvisita = new JTextField();
+		tfvisita.setColumns(10);
+		tfvisita.setBounds(128, 157, 143, 20);
+		contentPane.add(tfvisita);
+
+		JLabel lblBuscarnova = new JLabel("Buscar/Nova");
+		lblBuscarnova.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				
+				
+
+					try {
+						JDSelecionarBuscarVisitas frame = new JDSelecionarBuscarVisitas(v);
+										
+						if (frame == null) {  
+						
+				          frame.setVisible(true);  
+				        }
+						else 
+						{  
+				            frame.setVisible(true);  				            
+				            tfvisita.setText(v.getNome());
+				        } 
+						
+						
+						
+						
+						
+					} catch (Exception ee) {
+						ee.printStackTrace();
+					}
+					
+					tfvisita.setText(v.getNome());
+				
+					
+				
+				
+				
+			}
+		});
+		lblBuscarnova.setBounds(288, 157, 76, 14);
+		contentPane.add(lblBuscarnova);
+		btnLimpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				tfCliente.setText("");
+				tfOrcamento.setText("");
+				tfvisita.setText("");
+
+				tfCliente.grabFocus();
+
+			}
+		});
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+	}
+}

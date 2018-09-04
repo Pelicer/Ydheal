@@ -1,0 +1,768 @@
+package view.jFrames.cadastros;
+
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import modelSuplerclasses.Modelo;
+import modelSuplerclasses.Orcamento;
+import modelSuplerclasses.Visita;
+import view.jDialogs.JFCOrcamento_financeiro;
+import controller.ConexaoMySQL;
+
+public class JFCOrcamento_materiais extends JFrame {
+
+	Orcamento o = new Orcamento();
+	Modelo m = new Modelo();
+	Visita v = new Visita();
+
+	private JPanel contentPane;
+	private DefaultTableModel modeloJtable = new DefaultTableModel();
+	private JTable tablelistademateriais;
+	private JTextField tfmaterialbusca;
+	private JTextField tfmodelobusca;
+	private JTextField tfVisita;
+	private JTextField tfModeloCategoria;
+	private JTextField tfMaterialCategoria;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					JFCOrcamento_materiais frame = new JFCOrcamento_materiais();
+					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public JFCOrcamento_materiais() {
+		setTitle("Cadastro de Or\u00E7amento");
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 1070, 729);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+
+		JButton btnCancelar = new JButton("Cancelar");
+		// Adicionando imagem.
+		Image imgCancelar = new ImageIcon(this.getClass().getResource(
+				"/16px/cancelar.png")).getImage();
+		btnCancelar.setIcon(new ImageIcon(imgCancelar));
+		btnCancelar.setToolTipText("Cancelar");
+		btnCancelar.setBounds(521, 624, 115, 20);
+		contentPane.add(btnCancelar);
+
+		JButton btnSalvar = new JButton("Salvar");
+		// Adicionando imagem.
+		Image imgSalvar = new ImageIcon(this.getClass().getResource(
+				"/16px/ok.png")).getImage();
+		btnSalvar.setIcon(new ImageIcon(imgSalvar));
+		btnSalvar.setToolTipText("Salvar Dados");
+		btnSalvar.addActionListener(new ActionListener() {
+
+			// abre atela para a próxima parte d orçamento
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				try {
+					JFCOrcamento_financeiro dialog = new JFCOrcamento_financeiro();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setVisible(true);
+					dialog.setLocationRelativeTo(null);
+				} catch (Exception error) {
+					error.printStackTrace();
+				}
+			}
+		});
+		btnSalvar.setBounds(396, 624, 115, 20);
+		contentPane.add(btnSalvar);
+
+		JLabel lblModelo = new JLabel("Modelo Pronto");
+		lblModelo.setBounds(10, 67, 201, 36);
+		contentPane.add(lblModelo);
+
+		;
+
+		JLabel lblNewLabel = new JLabel("Materiais Para Modelo Personalizado");
+		lblNewLabel.setBounds(814, 67, 230, 36);
+		contentPane.add(lblNewLabel);
+
+		JScrollPane previewPedido = new JScrollPane();
+		previewPedido.setBounds(271, 179, 512, 352);
+		contentPane.add(previewPedido);
+		{
+
+			// Colunas da tabela de materiais.
+			modeloJtable.addColumn("Código");
+			modeloJtable.addColumn("Nome");
+			modeloJtable.addColumn("Qtd");
+			modeloJtable.addColumn("Preço");
+
+		}
+
+		tablelistademateriais = new JTable(modeloJtable) {
+
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+
+		};
+
+		tablelistademateriais.getTableHeader().setReorderingAllowed(false);
+
+		previewPedido.setViewportView(tablelistademateriais);
+
+		tablelistademateriais.getColumnModel().getColumn(0)
+				.setPreferredWidth(1);
+		tablelistademateriais.getColumnModel().getColumn(1)
+				.setPreferredWidth(1);
+		tablelistademateriais.getColumnModel().getColumn(2)
+				.setPreferredWidth(1);
+		tablelistademateriais.getColumnModel().getColumn(3)
+				.setPreferredWidth(1);
+
+		JButton btnSelecionarmodelo = new JButton("Selecionar");
+		btnSelecionarmodelo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Class.forName("com.mysql.jdbc.Driver");
+					String comando = "select material_id, material_nome, material_quantidade, material_custo from ";
+
+					// cria a conecxão
+					java.sql.Connection con = ConexaoMySQL.getConexaoMySQL();
+
+					// não sei oq isso faz kk
+					java.sql.Statement st = con.createStatement();
+
+					ResultSet resultSet = st.executeQuery(comando);
+					while (resultSet.next()) {
+
+						String cod = resultSet.getString("material_id");
+						String nome = resultSet.getString("material_nome");
+						String qtd = resultSet.getString("1");
+						String preco = resultSet.getString("material_custo");
+
+						modeloJtable.addRow(new Object[] { cod, nome, qtd,
+								preco });
+
+					}
+				} catch (Exception erroCarregar_Tela) {
+					erroCarregar_Tela.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Falha na consulta");
+
+				}
+
+			}
+
+		});
+		// Adicionando imagem.
+		Image imgSelecionarModelo = new ImageIcon(this.getClass().getResource(
+				"/16px/ok.png")).getImage();
+		btnSelecionarmodelo.setIcon(new ImageIcon(imgSelecionarModelo));
+		btnSelecionarmodelo.setToolTipText("Selecionar Modelo");
+		btnSelecionarmodelo.setBounds(10, 542, 230, 23);
+		contentPane.add(btnSelecionarmodelo);
+
+		JLabel lblMateriaisDoPedido = new JLabel("Materiais do Pedido");
+		lblMateriaisDoPedido.setBounds(271, 133, 512, 35);
+		contentPane.add(lblMateriaisDoPedido);
+
+		JButton btnEditar = new JButton("Editar");
+		// Adicionando imagem.
+		Image imgEditar = new ImageIcon(this.getClass().getResource(
+				"/16px/editar.png")).getImage();
+		btnEditar.setIcon(new ImageIcon(imgEditar));
+		btnEditar.setToolTipText("Editar Item");
+		btnEditar.setBounds(271, 542, 170, 23);
+		contentPane.add(btnEditar);
+
+		JButton btnRemover = new JButton("Remover");
+		// Adicionando imagem.
+		Image imgRemover = new ImageIcon(this.getClass().getResource(
+				"/16px/cancelar.png")).getImage();
+		btnRemover.setIcon(new ImageIcon(imgRemover));
+		btnRemover.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				modeloJtable.removeRow(tablelistademateriais.getSelectedRow());
+
+			}
+		});
+		btnRemover.setToolTipText("Remover Item");
+		btnRemover.setBounds(441, 542, 170, 23);
+		contentPane.add(btnRemover);
+
+		JButton btnLimparLista = new JButton("Limpar Lista");
+		// Adicionando imagem.
+		Image imgLimparLista = new ImageIcon(this.getClass().getResource(
+				"/16px/limpar.png")).getImage();
+		btnLimparLista.setIcon(new ImageIcon(imgLimparLista));
+		btnLimparLista.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				while (tablelistademateriais.getModel().getRowCount() > 0) {
+					((DefaultTableModel) tablelistademateriais.getModel())
+							.removeRow(0);
+				}
+
+			}
+		});
+		btnLimparLista.setToolTipText("Limpar Lista");
+		btnLimparLista.setBounds(613, 542, 170, 23);
+		contentPane.add(btnLimparLista);
+
+		JPanel panel = new JPanel();
+		panel.setBounds(814, 189, 230, 56);
+		contentPane.add(panel);
+		panel.setLayout(null);
+
+		JLabel lblBuscar = new JLabel("Buscar");
+		lblBuscar.setBounds(99, 5, 91, 14);
+		panel.add(lblBuscar);
+
+		JLabel lblNome = new JLabel("Nome:");
+		lblNome.setBounds(10, 30, 45, 15);
+		panel.add(lblNome);
+
+		tfmaterialbusca = new JTextField();
+		tfmaterialbusca.setBounds(55, 27, 135, 20);
+		panel.add(tfmaterialbusca);
+		tfmaterialbusca.setColumns(10);
+
+		JPanel panel_1 = new JPanel();
+		panel_1.setLayout(null);
+		panel_1.setBounds(10, 184, 230, 56);
+		contentPane.add(panel_1);
+
+		JLabel label = new JLabel("Buscar");
+		label.setBounds(99, 5, 91, 14);
+		panel_1.add(label);
+
+		JLabel label_1 = new JLabel("Nome:");
+		label_1.setBounds(10, 30, 45, 15);
+		panel_1.add(label_1);
+
+		tfmodelobusca = new JTextField();
+		tfmodelobusca.setColumns(10);
+		tfmodelobusca.setBounds(54, 27, 136, 20);
+		panel_1.add(tfmodelobusca);
+
+		JButton btnselecionarmaterial = new JButton("Selecionar");
+		btnselecionarmaterial.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+
+		// Adicionando imagem.
+		Image imgSelecionarMaterial = new ImageIcon(this.getClass()
+				.getResource("/16px/ok.png")).getImage();
+		btnselecionarmaterial.setIcon(new ImageIcon(imgSelecionarMaterial));
+		btnselecionarmaterial.setToolTipText("Selecionar Item");
+		btnselecionarmaterial.setBounds(814, 542, 230, 23);
+		contentPane.add(btnselecionarmaterial);
+
+		tablelistademateriais = new JTable(modeloJtable) {
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+
+		JSeparator separator = new JSeparator();
+		separator.setBounds(0, 67, 1054, 2);
+		contentPane.add(separator);
+
+		JLabel lblMateriais = new JLabel(
+				"Cadastro de Or\u00E7amento - Materiais");
+		lblMateriais.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		// Adicionando Imagem.
+		Image imgOrcamentoMaterial = new ImageIcon(this.getClass().getResource(
+				"/50px/orcamento.png")).getImage();
+		lblMateriais.setIcon(new ImageIcon(imgOrcamentoMaterial));
+		lblMateriais.setBounds(11, 0, 1033, 50);
+		contentPane.add(lblMateriais);
+
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setBounds(0, 598, 1054, 2);
+		contentPane.add(separator_1);
+
+		JPanel panel_2 = new JPanel();
+		panel_2.setBounds(10, 107, 230, 66);
+		contentPane.add(panel_2);
+		panel_2.setLayout(null);
+
+		JLabel lblCategoria = new JLabel("Categoria");
+		lblCategoria.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCategoria.setBounds(79, 11, 85, 14);
+		panel_2.add(lblCategoria);
+
+		JLabel lblNome_1 = new JLabel("Nome:");
+		lblNome_1.setBounds(10, 40, 46, 14);
+		panel_2.add(lblNome_1);
+
+		String itemModelo = null;
+
+		try {
+
+			String comando = "Select categoriamodelo_nome from tbl_categoriamodelo where categoriamodelo_id between '1' and '100'";
+
+			Class.forName("com.mysql.jdbc.Driver");
+
+			java.sql.Connection con = ConexaoMySQL.getConexaoMySQL();
+
+			java.sql.Statement st = con.createStatement();
+
+			ResultSet resultSet = st.executeQuery(comando);
+
+			while (resultSet.next()) {
+
+				String item = resultSet.getString("categoriamodelo_nome");
+				itemModelo = item;
+
+			}
+
+			st.close();
+			con.close();
+
+		}// fim do try
+		catch (Exception item) {
+			item.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Nenhum item encontrado.");
+		}
+
+		JPanel panel_3 = new JPanel();
+		panel_3.setLayout(null);
+		panel_3.setBounds(814, 112, 230, 66);
+		contentPane.add(panel_3);
+
+		JLabel label_2 = new JLabel("Categoria");
+		label_2.setHorizontalAlignment(SwingConstants.CENTER);
+		label_2.setBounds(79, 11, 85, 14);
+		panel_3.add(label_2);
+
+		JLabel label_3 = new JLabel("Nome:");
+		label_3.setBounds(10, 40, 46, 14);
+		panel_3.add(label_3);
+
+		tfMaterialCategoria = new JTextField();
+		tfMaterialCategoria.setColumns(10);
+		tfMaterialCategoria.setBounds(55, 36, 135, 20);
+		panel_3.add(tfMaterialCategoria);
+
+		tfVisita = new JTextField();
+		tfVisita.setBounds(355, 75, 86, 20);
+		contentPane.add(tfVisita);
+		tfVisita.setColumns(10);
+
+		JLabel lblVisita = new JLabel("Cod. Visita:");
+		lblVisita.setBounds(271, 78, 74, 14);
+		contentPane.add(lblVisita);
+
+		List listaModelo = new List();
+		listaModelo.setBounds(10, 246, 230, 285);
+		contentPane.add(listaModelo);
+
+		JButton btnBuscarModelo = new JButton("");
+		Image imgBuscarModelo = new ImageIcon(this.getClass().getResource(
+				"/16px/search.png")).getImage();
+		btnBuscarModelo.setIcon(new ImageIcon(imgBuscarModelo));
+		btnBuscarModelo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Buscar Modelo
+
+				listaModelo.removeAll();
+				try {
+
+					String comando = "select modelo_nome from tbl_modelo where modelo_nome = '"
+							+ tfmodelobusca.getText() + "';";
+					Class.forName("com.mysql.jdbc.Driver");
+					java.sql.Connection con = ConexaoMySQL.getConexaoMySQL();
+					java.sql.Statement st = con.createStatement();
+					ResultSet resultSet = st.executeQuery(comando);
+
+					while (resultSet.next()) {
+
+						String item = resultSet.getString("modelo_nome");
+						listaModelo.add(item);
+					}
+
+					st.close();
+					con.close();
+
+				} catch (Exception erroBuscaModelo) {
+					erroBuscaModelo.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Falha na consulta");
+				}
+
+			}
+		});
+		btnBuscarModelo.setToolTipText("buscar");
+		btnBuscarModelo.setBounds(200, 26, 20, 20);
+		panel_1.add(btnBuscarModelo);
+
+		JButton limparModelo = new JButton("Limpar Filtros");
+		Image imgLimparFiltros1 = new ImageIcon(this.getClass().getResource(
+				"/16px/cancelar.png")).getImage();
+		limparModelo.setIcon(new ImageIcon(imgLimparFiltros1));
+		limparModelo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Limpando filtros de modelo.
+				tfmodelobusca.setText("");
+				tfModeloCategoria.setText("");
+				try {
+
+					listaModelo.removeAll();
+
+					String comando = "Select modelo_nome from tbl_modelo";
+
+					Class.forName("com.mysql.jdbc.Driver");
+
+					java.sql.Connection con = ConexaoMySQL.getConexaoMySQL();
+
+					java.sql.Statement st = con.createStatement();
+
+					ResultSet resultSet = st.executeQuery(comando);
+
+					while (resultSet.next()) {
+
+						String item = resultSet.getString("modelo_nome");
+						listaModelo.add(item);
+
+					}
+
+					st.close();
+					con.close();
+
+				}// fim do try
+				catch (Exception erroLimparFiltro1) {
+					erroLimparFiltro1.printStackTrace();
+					JOptionPane.showMessageDialog(null,
+							"Falha no carregamento da lista de modelos.");
+				}
+			}
+		});
+		limparModelo.setBounds(10, 564, 230, 23);
+		contentPane.add(limparModelo);
+
+		List listaMaterial = new List();
+		listaMaterial.setBounds(814, 251, 230, 285);
+		contentPane.add(listaMaterial);
+
+		JButton btnbuscarcategoriamateriais = new JButton("");
+		btnbuscarcategoriamateriais.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				// Carregando materiais por categoria.
+				listaMaterial.removeAll();
+				try {
+
+					Class.forName("com.mysql.jdbc.Driver");
+					String comando = "select material_nome from tbl_material where categoriamaterial_id = "
+							+ Integer.parseInt(tfMaterialCategoria.getText());
+
+					java.sql.Connection con = ConexaoMySQL.getConexaoMySQL();
+					java.sql.Statement st = con.createStatement();
+
+					ResultSet resultSet = st.executeQuery(comando);
+
+					while (resultSet.next()) {
+
+						String nome = resultSet.getString("material_nome");
+
+						listaMaterial.add(nome);
+
+					}
+
+					st.close();
+					con.close();
+
+				} catch (Exception erroModeloCategoria) {
+					erroModeloCategoria.printStackTrace();
+					JOptionPane.showMessageDialog(null,
+							"Falha no carregamento da lista de materiais.");
+				}
+
+			}
+		});
+		// Adicionando imagem.
+		Image imgBuscarCategoriaMateriais = new ImageIcon(this.getClass()
+				.getResource("/16px/search.png")).getImage();
+		btnbuscarcategoriamateriais.setIcon(new ImageIcon(
+				imgBuscarCategoriaMateriais));
+		btnbuscarcategoriamateriais.setToolTipText("buscar");
+		btnbuscarcategoriamateriais.setBounds(200, 36, 20, 20);
+		panel_3.add(btnbuscarcategoriamateriais);
+
+		JButton btnbuscarmaterial = new JButton("");
+		btnbuscarmaterial.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Buscar material
+
+				listaMaterial.removeAll();
+				try {
+
+					String comando = "select material_nome from tbl_material where material_nome = '"
+							+ tfmaterialbusca.getText() + "';";
+					Class.forName("com.mysql.jdbc.Driver");
+					java.sql.Connection con = ConexaoMySQL.getConexaoMySQL();
+					java.sql.Statement st = con.createStatement();
+					ResultSet resultSet = st.executeQuery(comando);
+
+					while (resultSet.next()) {
+
+						String item = resultSet.getString("material_nome");
+						listaMaterial.add(item);
+					}
+
+					st.close();
+					con.close();
+
+				} catch (Exception erroBuscaModelo) {
+					erroBuscaModelo.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Falha na consulta");
+				}
+
+			}
+		});// Adicionando imagem.
+		Image imgBuscarMaterial = new ImageIcon(this.getClass().getResource(
+				"/16px/search.png")).getImage();
+		btnbuscarmaterial.setIcon(new ImageIcon(imgBuscarMaterial));
+		btnbuscarmaterial.setToolTipText("buscar");
+		btnbuscarmaterial.setBounds(200, 27, 20, 20);
+		panel.add(btnbuscarmaterial);
+
+		JButton btnLimparFiltros = new JButton("Limpar Filtros");
+		Image imgLimparFiltros2 = new ImageIcon(this.getClass().getResource(
+				"/16px/cancelar.png")).getImage();
+		btnLimparFiltros.setIcon(new ImageIcon(imgLimparFiltros2));
+		btnLimparFiltros.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Limpando filtros de material.
+				tfmaterialbusca.setText("");
+				tfMaterialCategoria.setText("");
+				try {
+
+					listaMaterial.removeAll();
+
+					String comando = "Select material_nome from tbl_material";
+
+					Class.forName("com.mysql.jdbc.Driver");
+
+					java.sql.Connection con = ConexaoMySQL.getConexaoMySQL();
+
+					java.sql.Statement st = con.createStatement();
+
+					ResultSet resultSet = st.executeQuery(comando);
+
+					while (resultSet.next()) {
+
+						String item = resultSet.getString("material_nome");
+						listaMaterial.add(item);
+
+					}
+
+					st.close();
+					con.close();
+
+				}// fim do try
+				catch (Exception erroLimparFiltro1) {
+					erroLimparFiltro1.printStackTrace();
+					JOptionPane.showMessageDialog(null,
+							"Falha no carregamento da lista de modelos.");
+				}
+
+			}
+		});
+		btnLimparFiltros.setBounds(814, 564, 230, 23);
+		contentPane.add(btnLimparFiltros);
+
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int dialog = JOptionPane.YES_NO_OPTION;
+				JOptionPane
+						.showMessageDialog(
+								null,
+								"O cadastro do pedido será cancelado. Tem certeza que deseja continuar?",
+								"AVISO!", JOptionPane.YES_NO_OPTION);
+				if (dialog == JOptionPane.YES_OPTION) {
+					// REVISAR: a opção "Sim" fecha o sistema, e não só o JFrame
+					// de cadastro.
+					System.exit(0);
+				} else if (dialog == JOptionPane.NO_OPTION) {
+					dispose();
+				}
+			}
+		});
+
+		// Carregando Modelos.
+		try {
+
+			Class.forName("com.mysql.jdbc.Driver");
+			String comando = "select modelo_nome from tbl_modelo";
+
+			java.sql.Connection con = ConexaoMySQL.getConexaoMySQL();
+			java.sql.Statement st = con.createStatement();
+
+			ResultSet resultSet = st.executeQuery(comando);
+
+			while (resultSet.next()) {
+
+				String nome = resultSet.getString("modelo_nome");
+
+				listaModelo.add(nome);
+
+			}
+
+			st.close();
+			con.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,
+					"Falha no carregamento da lista de modelos");
+		}
+
+		// Carregando Materiais.
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			String comando = "select material_nome from tbl_material";
+
+			java.sql.Connection con = ConexaoMySQL.getConexaoMySQL();
+
+			java.sql.Statement st = con.createStatement();
+
+			ResultSet resultSet = st.executeQuery(comando);
+
+			while (resultSet.next()) {
+
+				String nome = resultSet.getString("material_nome");
+
+				listaMaterial.add(nome);
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,
+					"Falha no carregamento da lista de materiais.");
+		}
+
+		JButton btnbuscarcategoriamodelo = new JButton("");
+		btnbuscarcategoriamodelo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				// Carregando modelos por categoria.
+				listaModelo.removeAll();
+				try {
+
+					Class.forName("com.mysql.jdbc.Driver");
+					String comando = "select modelo_nome from tbl_modelo where categoriamodelo_id = "
+							+ Integer.parseInt(tfModeloCategoria.getText());
+
+					java.sql.Connection con = ConexaoMySQL.getConexaoMySQL();
+					java.sql.Statement st = con.createStatement();
+
+					ResultSet resultSet = st.executeQuery(comando);
+
+					while (resultSet.next()) {
+
+						String nome = resultSet.getString("modelo_nome");
+
+						listaModelo.add(nome);
+
+					}
+
+					st.close();
+					con.close();
+
+				} catch (Exception erroModeloCategoria) {
+					erroModeloCategoria.printStackTrace();
+					JOptionPane.showMessageDialog(null,
+							"Falha no carregamento da lista de modelos");
+				}
+
+			}
+		});
+
+		// Adicionando imagem.
+		Image imgBuscarCategoriaModelo = new ImageIcon(this.getClass()
+				.getResource("/16px/search.png")).getImage();
+		btnbuscarcategoriamodelo
+				.setIcon(new ImageIcon(imgBuscarCategoriaModelo));
+		btnbuscarcategoriamodelo.setToolTipText("buscar");
+		btnbuscarcategoriamodelo.setBounds(200, 36, 20, 20);
+		panel_2.add(btnbuscarcategoriamodelo);
+
+		tfModeloCategoria = new JTextField();
+		tfModeloCategoria.setBounds(55, 36, 135, 20);
+		panel_2.add(tfModeloCategoria);
+		tfModeloCategoria.setColumns(10);
+
+		JButton btnConfirmar = new JButton("Selecionar");
+		Image imgConfirmar = new ImageIcon(this.getClass().getResource(
+				"/16px/ok.png")).getImage();
+		btnConfirmar.setIcon(new ImageIcon(imgConfirmar));
+		btnConfirmar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// Selecionando visita.
+				try {
+					Class.forName("com.mysql.jdbc.Driver");
+					String comando = "select visita_id, visita_data, visita_status, visita_horario, visita_nome, visita_endereco, visita_telefone, visita_observacao from tbl_visita where visita_id = "
+							+ Integer.parseInt(tfVisita.getText()) + ";";
+
+					java.sql.Connection con = ConexaoMySQL.getConexaoMySQL();
+
+					java.sql.Statement st = con.createStatement();
+
+					ResultSet resultSet = st.executeQuery(comando);
+
+					v.setId(resultSet.getInt("visita_id"));
+					v.setDataVisita(resultSet.getString("visita_data"));
+					v.setStatus(resultSet.getInt("visita_status"));
+
+					JOptionPane.showMessageDialog(null,
+							"Visita selecionada com sucesso.");
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+		});
+		btnConfirmar.setBounds(271, 107, 170, 23);
+		contentPane.add(btnConfirmar);
+
+	}
+
+	public void Carregar_tela() {
+
+	}
+}

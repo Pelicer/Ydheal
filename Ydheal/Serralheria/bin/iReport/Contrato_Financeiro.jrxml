@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2016-11-02T19:52:09 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Contrato_Financeiro" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="96e6cbe8-3b25-4a1b-ba89-78c6ecaf3d20">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MySQL"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<queryString>
+		<![CDATA[SELECT * 
+FROM tbl_orcamento
+]]>
+	</queryString>
+	<field name="orcamento_id" class="java.lang.Integer"/>
+	<field name="orcamento_valorTotal" class="java.lang.Double"/>
+	<field name="orcamento_metodoPagamento" class="java.lang.String"/>
+	<field name="orcamento_valorMaoDeObra" class="java.lang.Double"/>
+	<field name="orcamento_totalPrazo" class="java.lang.Double"/>
+	<field name="orcamento_juros" class="java.lang.Double"/>
+	<field name="orcamento_parcelamento" class="java.lang.Double"/>
+	<field name="orcamento_largura" class="java.lang.Double"/>
+	<field name="orcamento_altura" class="java.lang.Double"/>
+	<field name="orcamento_area" class="java.lang.Double"/>
+	<field name="orcamento_precopormetroquadrado" class="java.lang.Double"/>
+	<field name="orcamento_descricaoproduto" class="java.lang.String"/>
+	<field name="orcamento_detalesadicionais" class="java.lang.String"/>
+	<field name="orcamento_listaqtd" class="java.lang.String"/>
+	<field name="orcamento_listaMaterial" class="java.lang.String"/>
+	<field name="orcamento_descricaopedido" class="java.lang.String"/>
+	<field name="modelo_id" class="java.lang.Integer"/>
+	<field name="visita_id" class="java.lang.Integer"/>
+	<field name="cliente_id" class="java.lang.Integer"/>
+	<background>
+		<band height="10" splitType="Stretch">
+			<textField>
+				<reportElement x="-20" y="-20" width="595" height="30" uuid="ed4d17b7-2850-4e97-ad82-2a46cf4b3c0d"/>
+				<textFieldExpression><![CDATA[$F{orcamento_valorTotal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

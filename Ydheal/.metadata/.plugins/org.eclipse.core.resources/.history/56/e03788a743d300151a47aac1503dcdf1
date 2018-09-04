@@ -1,0 +1,130 @@
+package view.jDialogs;
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
+import modelSuplerclasses.Orcamento;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class JDSelecionarCodigoVisita extends JDialog {
+
+	private final JPanel contentPanel = new JPanel();
+	
+	DefaultTableModel modelo = new DefaultTableModel();
+	
+	private JTextField textField;
+	private JTable table;
+
+	/**
+	 * Launch the application.
+	 */
+	
+
+	/**
+	 * Create the dialog.
+	 * @param o 
+	 */
+	public JDSelecionarCodigoVisita(Orcamento o) {
+		setTitle("Selecionar Visita");
+		setBounds(100, 100, 421, 398);
+		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(null);
+		
+		JLabel lblNomeDoCliente = new JLabel("Nome do Cliente:");
+		lblNomeDoCliente.setBounds(10, 15, 112, 14);
+		contentPanel.add(lblNomeDoCliente);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(132, 12, 125, 20);
+		contentPanel.add(textField);
+		
+		JButton button = new JButton("Buscar");
+		button.setBounds(283, 11, 112, 23);
+		contentPanel.add(button);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 40, 385, 275);
+		contentPanel.add(scrollPane);
+		
+		{
+			modelo.addColumn("Cod.");
+			modelo.addColumn("Nome.");
+
+
+		}
+
+		table = new JTable(modelo) {
+
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+
+		};
+
+		// Impede a reordenação das colunas.
+		table.getTableHeader().setReorderingAllowed(false);
+
+		table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+
+					o.setVisitaId(Integer.parseInt(String.valueOf(modelo.getValueAt(
+							table.getSelectedRow(), 0))));
+
+					
+
+					dispose();
+
+				}
+			}
+		});
+
+
+
+		scrollPane.setViewportView(table);
+		
+		
+		setLocationRelativeTo(null);
+		{
+			JPanel buttonPane = new JPanel();
+			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			{
+				JButton okButton = new JButton("Selecionar");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						
+						o.setVisitaId(Integer.parseInt(String.valueOf(modelo.getValueAt(
+								table.getSelectedRow(), 0))));
+						
+					}
+				});
+				okButton.setActionCommand("OK");
+				buttonPane.add(okButton);
+				getRootPane().setDefaultButton(okButton);
+			}
+			{
+				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.setActionCommand("Cancel");
+				buttonPane.add(cancelButton);
+			}
+		}
+	}
+}

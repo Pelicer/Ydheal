@@ -1,0 +1,319 @@
+package view;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.ResultSet;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import ComandosMysql.ConexaoMySQL;
+
+public class AWTelainicial {
+
+	private JFrame frmSerralheriaYdheal;
+	private JTable tbl_visitas;
+	private JTable tabletbl_visitas;
+	private JTable tabletbl_pedidos;
+	private JTable tabletbl_pagamentos;
+	private JTable tabletbl_instalacoes;
+	private JTable tabletbl_materiais;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					AWTelainicial window = new AWTelainicial();
+					window.frmSerralheriaYdheal.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public AWTelainicial() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frmSerralheriaYdheal = new JFrame();
+		frmSerralheriaYdheal.setTitle("Serralheria Ydheal");
+		frmSerralheriaYdheal.setBounds(100, 100, 1446, 707);
+		frmSerralheriaYdheal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			
+
+		// inicia no centro da tela
+		frmSerralheriaYdheal.setLocationRelativeTo(null);
+		
+		
+		// criação dos modelos das tabelas
+		
+		DefaultTableModel modelotbl_visitas = new DefaultTableModel();
+		DefaultTableModel modelotbl_materiais = new DefaultTableModel();
+		DefaultTableModel modelotbl_pedidos = new DefaultTableModel();
+		DefaultTableModel modelotbl_pagamentos= new DefaultTableModel();
+		DefaultTableModel modelotbl_instalacoes = new DefaultTableModel();
+		
+		
+		JMenuBar menuBar = new JMenuBar();
+		frmSerralheriaYdheal.setJMenuBar(menuBar);
+		
+		JMenuItem mntmClientes = new JMenuItem("Clientes");
+		menuBar.add(mntmClientes);
+		
+		JMenuItem mntmPedidos = new JMenuItem("Pedidos");
+		menuBar.add(mntmPedidos);
+		
+		JMenuItem mntmOramentos = new JMenuItem("Or\u00E7amentos");
+		menuBar.add(mntmOramentos);
+		
+		JMenuItem mntmVisita = new JMenuItem("Visita");
+		menuBar.add(mntmVisita);
+		
+		JMenuItem mntmPagamentos = new JMenuItem("Pagamentos");
+		menuBar.add(mntmPagamentos);
+		
+		JMenuItem mntmEstoque = new JMenuItem("Estoque");
+		menuBar.add(mntmEstoque);
+		
+		JMenuItem mntmRelatrios = new JMenuItem("Relat\u00F3rios");
+		menuBar.add(mntmRelatrios);
+		
+		JMenuItem mntmAmstras = new JMenuItem("Am\u00F3stras");
+		menuBar.add(mntmAmstras);
+		
+		JPanel panel = new JPanel();
+		frmSerralheriaYdheal.getContentPane().add(panel, BorderLayout.CENTER);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+		
+		JPanel panel_1 = new JPanel();
+		panel.add(panel_1);
+		panel_1.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		JButton btnNewButton_1 = new JButton("New button");
+		panel_1.add(btnNewButton_1);
+		
+		JButton btnNewButton_3 = new JButton("New button");
+		panel_1.add(btnNewButton_3);
+		
+		JButton btnNewButton_2 = new JButton("New button");
+		panel_1.add(btnNewButton_2);
+		
+		JButton btnNewButton = new JButton("New button");
+		panel_1.add(btnNewButton);
+		
+		JButton btnNewButton_4 = new JButton("New button");
+		btnNewButton_4.setBorder(null);
+		
+		panel_1.add(btnNewButton_4);
+		
+		
+		JScrollPane scrollPanetbl_visita = new JScrollPane();
+		panel.add(scrollPanetbl_visita);
+		
+		
+			// add colunas
+			modelotbl_visitas.addColumn("Cod.");
+			modelotbl_visitas.addColumn("Cliente");
+					
+		
+					// crio a jtable com o modelo como construtor(parametro)
+					tabletbl_visitas = new JTable(modelotbl_visitas){						
+						
+						// torno as céculas não editaveis
+				public boolean isCellEditable(int row, int column){
+					return false;
+				}
+						
+					};
+					// no fim da moddificação da célula editavel, vem a deteqção de evento de cliq dublo em um registro da jtable.
+					tabletbl_visitas.addMouseListener(new MouseAdapter(){
+					      public void mouseClicked(MouseEvent e){
+					        if(e.getClickCount() == 2){
+					        	
+					        	// colocar para abrir o a visita selecionada no clique.
+					          JOptionPane.showMessageDialog(null, "duplo-clique detectado");
+					          
+					          
+					        }
+					      }
+					     }); 
+					// fim da detecção de duplo clique
+					
+					tabletbl_visitas.getColumnModel().getColumn(1).setPreferredWidth(270);
+					
+					
+					
+		
+					scrollPanetbl_visita.setViewportView(tabletbl_visitas);
+		
+		JList list = new JList();
+		panel.add(list);
+		
+		JScrollPane scrollPanetbl_materiais = new JScrollPane();
+		panel.add(scrollPanetbl_materiais);
+		
+		{
+			// add colunas
+			modelotbl_materiais.addColumn("Materiais");
+			
+					// crio a jtable com o modelo como construtor(parametro)
+					tabletbl_materiais = new JTable(modelotbl_materiais){
+						
+						// torno as céculas não editaveis da table acima /\
+				public boolean isCellEditable(int row, int column){
+					return false;
+				}
+						
+					};
+					
+		}
+		scrollPanetbl_materiais.setViewportView(tabletbl_materiais);
+		
+		
+		JScrollPane scrollPanetbl_pedidos = new JScrollPane();
+		panel.add(scrollPanetbl_pedidos);
+		
+		{
+			// add colunas
+			modelotbl_pedidos.addColumn("Pedidos");
+		
+					// crio a jtable com o modelo como construtor(parametro)	
+					tabletbl_pedidos = new JTable(modelotbl_pedidos){	
+						
+						// torno as céculas não editaveis da table acima /\
+				public boolean isCellEditable(int row, int column){
+					return false;
+				}
+						
+					};
+					
+		}
+		scrollPanetbl_pedidos.setViewportView(tabletbl_pedidos);
+		
+		JScrollPane scrollPanetbl_pagamentos = new JScrollPane();
+		panel.add(scrollPanetbl_pagamentos);
+		
+		{
+			// add colunas
+			modelotbl_pagamentos.addColumn("Pagamentos");
+		
+					// crio a jtable com o modelo como construtor(parametro)	
+					tabletbl_pagamentos = new JTable(modelotbl_pagamentos){	
+						
+						// torno as céculas não editaveis da table acima /\
+				public boolean isCellEditable(int row, int column){
+					return false;
+				}
+						
+					};
+					
+		}
+
+		scrollPanetbl_pagamentos.setViewportView(tabletbl_pagamentos);
+		
+		JScrollPane scrollPanetbl_instalacoes = new JScrollPane();
+		panel.add(scrollPanetbl_instalacoes);
+		
+		{
+			// add colunas
+			modelotbl_instalacoes.addColumn("Instalações");
+		
+					// crio a jtable com o modelo como construtor(parametro)	
+			tabletbl_instalacoes  = new JTable(modelotbl_instalacoes){	
+						
+						// torno as céculas não editaveis da table acima /\
+				public boolean isCellEditable(int row, int column){
+					return false;
+				}
+						
+					};
+					
+		}
+
+		scrollPanetbl_instalacoes.setViewportView(tabletbl_instalacoes);
+		
+		
+		
+		// ao iniciar, ele começa a carregar as tabelas, de acordo os pedidos, visitas, clientes, instalações a serem feitos.
+		// ele deve iniciar todos ao "mesmo tempo" não sei como
+		
+		try {
+			// Busca da tela inicial, visitas
+
+			// instancia
+			ConexaoMySQL conecxao = new ConexaoMySQL();
+
+			// Strin com o comando mysql
+			String comando = "select visita_id, visita_nome from tbl_visita where visita_status = 0;";
+
+			// cria a conecxão
+			Connection con = ConexaoMySQL.getConexaoMySQL();
+
+			// cria um estamento
+			java.sql.Statement st = con.createStatement();
+
+			// pega o resultado obtido da execão do comando mysql
+			ResultSet resultSet = st.executeQuery(comando);
+
+			
+			while (resultSet.next()) {
+
+						
+				// cria-se uma variavel que recebe o campo retornado da
+				// consulta, aquis, enquanto tiver resultado, faz algo.
+			String cod = resultSet.getString("visita_id");
+			String nome = resultSet.getString("visita_nome");
+			
+			
+			modelotbl_visitas.addRow( new Object[] {cod,nome});
+			
+			}
+			
+			st.close();
+			con.close();
+
+		}
+			
+		catch (Exception erro) {
+
+			JOptionPane.showMessageDialog(null, "Falha na consulta");
+		}
+		
+	
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+
+}

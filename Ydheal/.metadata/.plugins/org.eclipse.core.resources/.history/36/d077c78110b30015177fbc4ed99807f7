@@ -1,0 +1,163 @@
+package view.jFrames;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import java.awt.Font;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.SwingConstants;
+import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class JFModelos extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField tfcodigo;
+	private JTextField tfdescricao;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					JFModelos frame = new JFModelos();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public JFModelos() {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 992, 740);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setLocationRelativeTo(null);
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		contentPane.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel3 = new JPanel();
+		contentPane.add(panel3, BorderLayout.CENTER);
+		panel3.setLayout(null);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setLayout(null);
+		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_1.setBounds(0, 0, 966, 88);
+		panel3.add(panel_1);
+		
+		JLabel label = new JLabel("C\u00F3digo:");
+		label.setBounds(212, 37, 55, 14);
+		panel_1.add(label);
+		
+		tfcodigo = new JTextField();
+		tfcodigo.setColumns(10);
+		tfcodigo.setBounds(278, 34, 86, 20);
+		panel_1.add(tfcodigo);
+		
+		JLabel lblDescrio = new JLabel("Descri\u00E7\u00E3o:");
+		lblDescrio.setBounds(374, 37, 73, 14);
+		panel_1.add(lblDescrio);
+		
+		tfdescricao = new JTextField();
+		tfdescricao.setColumns(10);
+		tfdescricao.setBounds(438, 34, 202, 20);
+		panel_1.add(tfdescricao);
+		
+		JLabel lblModelo = new JLabel("Modelo");
+		lblModelo.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblModelo.setBounds(10, 6, 343, 79);
+		panel_1.add(lblModelo);
+		
+		JLabel lblCategoria = new JLabel("Categoria: ");
+		lblCategoria.setBounds(655, 37, 73, 14);
+		panel_1.add(lblCategoria);
+		
+		JComboBox cbcategoria = new JComboBox();
+		cbcategoria.setBounds(727, 34, 132, 20);
+		panel_1.add(cbcategoria);
+		
+		JPanel panel = new JPanel();
+		panel.setLayout(null);
+		panel.setBounds(0, 88, 966, 592);
+		panel3.add(panel);
+		
+		JButton btnnovo = new JButton("Novo");
+		btnnovo.setToolTipText("Criar Novo Registro");
+		btnnovo.setBounds(122, 11, 100, 23);
+		panel.add(btnnovo);
+		
+		JButton bntfiltrar = new JButton("Filtrar");
+		bntfiltrar.setToolTipText("Filtrar Registros");
+		bntfiltrar.setBounds(238, 11, 100, 23);
+		panel.add(bntfiltrar);
+		
+		JButton bntlimpar = new JButton("Limpar");
+		bntlimpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			
+				tfdescricao.setText("");
+				tfcodigo.setText("");
+				cbcategoria.setSelectedIndex(0);
+				
+			}
+		});
+		bntlimpar.setToolTipText("Limpar Filtros");
+		bntlimpar.setBounds(348, 11, 100, 23);
+		panel.add(bntlimpar);
+		
+		JButton bntimprimir = new JButton("Imprimir");
+		bntimprimir.setToolTipText("Imprimir");
+		bntimprimir.setBounds(458, 11, 100, 23);
+		panel.add(bntimprimir);
+		
+		JButton bntalterar = new JButton("Alterar");
+		bntalterar.setToolTipText("Alterar Registro");
+		bntalterar.setBounds(568, 11, 100, 23);
+		panel.add(bntalterar);
+		
+		JLabel lblregistrosencontrados = new JLabel("0");
+		lblregistrosencontrados.setHorizontalAlignment(SwingConstants.CENTER);
+		lblregistrosencontrados.setForeground(new Color(0, 128, 0));
+		lblregistrosencontrados.setBounds(740, 45, 46, 14);
+		panel.add(lblregistrosencontrados);
+		
+		JButton btnexcluir = new JButton("Excluir");
+		btnexcluir.setToolTipText("Excluir Registro");
+		btnexcluir.setBounds(680, 11, 89, 23);
+		panel.add(btnexcluir);
+		
+		JLabel label_2 = new JLabel("Registros Encontrados");
+		label_2.setBounds(793, 45, 141, 14);
+		panel.add(label_2);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 70, 946, 511);
+		panel.add(scrollPane);
+		setTitle("Modelos");
+		
+		
+	
+	
+		
+	
+	}
+}

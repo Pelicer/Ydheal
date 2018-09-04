@@ -1,0 +1,16 @@
+package model;
+
+public class Usuario {
+	//Atributos da classe usuários, modifiquei a ordem dos atributos contidos no diagrama para facilitar o desenvolvimento
+	private int id;
+	private int nivelAcesso;
+	private String nome;
+	private String sobrenome;
+	private String telefone;
+	private String email;
+	private String endereco;
+	private String cep;
+	private String userName;
+	private String senha;
+
+}

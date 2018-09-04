@@ -1,0 +1,51 @@
+package controller;
+
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+
+import javax.swing.JOptionPane;
+
+public class Principal {
+
+	public static void main(String[] args) {
+
+		String comando = "select visita_id from tbl_visita;) ;"; 
+        
+        try{     
+                 
+        	Class.forName("com.mysql.jdbc.Driver");   
+			
+			//cria a conecxão
+			   java.sql.Connection con = ConexaoMySQL.getConexaoMySQL();
+			   
+			// fla q a conecxao esta ok
+				JOptionPane.showMessageDialog(null,"Conexao OK");   
+			
+			// não sei  oq isso faz kk	
+			java.sql.Statement st = con.createStatement();
+ 
+         				
+  ResultSet resultSet = st.executeQuery(comando);     
+                       
+                      while (resultSet.next()) {  
+                    	  	                    	  
+                       String se = resultSet.getString("visita_id");
+                       
+                       JOptionPane.showMessageDialog(null, se);
+                      }  
+                      
+                      JOptionPane.showMessageDialog(null,"Sucesso na consulta"); 
+                      
+           st.close();     
+           con.close();     
+   
+           
+                      }//fim do try     
+        catch(Exception e){     
+             
+        	JOptionPane.showMessageDialog(null,"Falha na consulta");    
+        }     
+		
+	
+	}
+}

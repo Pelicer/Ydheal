@@ -1,0 +1,407 @@
+package view.jFrames.cadastros;
+
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import modelSuplerclasses.Modelo;
+import view.jFrames.JFSelecaodeMaterial;
+import ComandosMysql.ConexaoMySQL;
+
+public class JFCModelo extends JDialog {
+
+	private JPanel contentPane;
+	private JTextField tfnome;
+	private JTextField tfcustomateriais;
+	private JTextField tfcustomaodeobra;
+	private JTextField tfcustofinal;
+
+	// modelo defaout par alista
+
+	DefaultListModel modelolista = new DefaultListModel();
+	
+	// objeto modelo
+	Modelo m = new Modelo();
+	
+	
+			
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					JFCModelo frame = new JFCModelo();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public JFCModelo() {
+		setTitle("Cadastro de Modelo");
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 409, 701);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.setBounds(31, 628, 89, 23);
+		contentPane.add(btnSalvar);
+		
+		JButton btnLimpar = new JButton("Limpar");
+		
+		btnLimpar.setBounds(142, 628, 97, 23);
+		contentPane.add(btnLimpar);
+		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+				dispose();
+			}
+		});
+		btnCancelar.setBounds(264, 628, 89, 23);
+		contentPane.add(btnCancelar);
+		
+		JLabel lblNome = new JLabel("Nome: ");
+		lblNome.setBounds(10, 90, 46, 14);
+		contentPane.add(lblNome);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(0, 61, 424, 2);
+		contentPane.add(separator);
+		
+		JLabel lblCadastroDeModelo = new JLabel("Cadastro de Modelo");
+		lblCadastroDeModelo.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblCadastroDeModelo.setBounds(10, 0, 414, 63);
+		contentPane.add(lblCadastroDeModelo);
+		
+		JLabel lblListaDeMaterial = new JLabel("Lista de material:");
+		lblListaDeMaterial.setBounds(10, 124, 110, 14);
+		contentPane.add(lblListaDeMaterial);
+		
+		JLabel lblCusto = new JLabel("Custo dos materiais:");
+		lblCusto.setBounds(10, 383, 124, 14);
+		contentPane.add(lblCusto);
+		
+		JLabel lblDescrio = new JLabel("Descri\u00E7\u00E3o:");
+		lblDescrio.setBounds(10, 510, 75, 14);
+		contentPane.add(lblDescrio);
+		
+		JLabel lblCustoDaMo = new JLabel("Custo da m\u00E3o de obra:");
+		lblCustoDaMo.setBounds(10, 408, 138, 14);
+		contentPane.add(lblCustoDaMo);
+		
+		JLabel lblCategoria = new JLabel("Categoria:");
+		lblCategoria.setBounds(10, 462, 124, 14);
+		contentPane.add(lblCategoria);
+		
+		tfnome = new JTextField();
+		tfnome.setBounds(142, 87, 236, 20);
+		contentPane.add(tfnome);
+		tfnome.setColumns(10);
+
+		
+		JList listademateriais = new JList(modelolista);
+		listademateriais.setBounds(10, 149, 368, 164);
+		contentPane.add(listademateriais);
+		
+		JButton btnAdicionar = new JButton("Adicionar");
+		btnAdicionar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							JFSelecaodeMaterial frame = new JFSelecaodeMaterial(m);
+							frame.setModal(true);
+							frame.setLocationRelativeTo(null);
+							frame.setVisible(true);
+							
+						} catch (Exception erro) {
+							erro.printStackTrace();
+						}
+
+					}
+				});
+				
+				m.getListaMaterial();
+				
+				//Adicionando dados no final do JList de forma dinâmica:
+				DefaultListModel model = (DefaultListModel) listademateriais.getModel();
+				model.add(model.getSize(), "item final");
+
+				
+			}
+		});
+		btnAdicionar.setBounds(31, 324, 103, 23);
+		contentPane.add(btnAdicionar);
+		
+		JButton btnRemover = new JButton("Remover");
+		btnRemover.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+
+				
+		if (listademateriais.getSelectedIndices().length > 1){
+		
+			// retorna array contendo todos os indices selecionados na lista
+			int[] indexes = listademateriais.getSelectedIndices();
+			
+			int i = indexes.length;
+			
+			while (i != 0){
+			
+				 i--;
+				
+			 modelolista.remove(indexes[i]);
+			 
+			
+			 
+			
+			}
+			
+			
+		}
+		else{
+			
+				// retorna array contendo todos os indices selecionados na lista
+				int index = listademateriais.getSelectedIndex();
+				
+				   modelolista.remove(index);
+		}	
+				
+			}
+		});
+		btnRemover.setBounds(149, 324, 103, 23);
+		contentPane.add(btnRemover);
+		
+		JButton btnLimpar_1 = new JButton("Limpar");
+		btnLimpar_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				// limpando todo o Jlist
+				listademateriais.setModel(new DefaultListModel());
+				
+			}
+		});
+		btnLimpar_1.setBounds(264, 324, 103, 23);
+		contentPane.add(btnLimpar_1);
+		
+		tfcustomateriais = new JTextField();
+		tfcustomateriais.setText("0");
+		tfcustomateriais.setBounds(142, 380, 236, 20);
+		contentPane.add(tfcustomateriais);
+		tfcustomateriais.setColumns(10);
+		
+		tfcustomaodeobra = new JTextField();
+		tfcustomaodeobra.setText("0");
+		tfcustomaodeobra.setBounds(142, 405, 236, 20);
+		contentPane.add(tfcustomaodeobra);
+		tfcustomaodeobra.setColumns(10);
+		
+		JComboBox cbcategoria = new JComboBox();
+		cbcategoria.setBounds(142, 459, 236, 20);
+		contentPane.add(cbcategoria);
+		
+		// carrega as categorias
+
+		String comando = "select categoriamodelo_nome from tbl_categoriamodelo;";
+
+		try {
+
+			Class.forName("com.mysql.jdbc.Driver");
+
+			// Criando conexão.
+			java.sql.Connection con = ConexaoMySQL.getConexaoMySQL();
+			java.sql.Statement st = con.createStatement();
+
+			ResultSet resultSet = st.executeQuery(comando);
+
+			cbcategoria.removeAllItems();
+
+			while (resultSet.next()) {
+
+				String nome = resultSet
+						.getString("categoriamodelo_nome");
+
+				cbcategoria.addItem(nome);
+
+			}
+
+			st.close();
+			con.close();
+
+		}// fim do try
+		catch (Exception eee) {
+			eee.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Falha na consulta");
+		}
+
+		
+		
+		
+		JTextArea tfdescricao = new JTextArea();
+		tfdescricao.setBounds(142, 513, 236, 93);
+		contentPane.add(tfdescricao);
+		
+		JLabel lblCustoFinal = new JLabel("Custo final:");
+		lblCustoFinal.setBounds(10, 433, 75, 14);
+		contentPane.add(lblCustoFinal);
+		
+		tfcustofinal = new JTextField();
+		tfcustofinal.setText("0");
+		tfcustofinal.setEditable(false);
+		tfcustofinal.setBounds(142, 433, 236, 20);
+		contentPane.add(tfcustofinal);
+		tfcustofinal.setColumns(10);
+		
+		JButton button = new JButton("Adicionar categoria");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				try {
+					Class.forName("com.mysql.jdbc.Driver");
+
+					// cria a conecxão
+					java.sql.Connection con = ConexaoMySQL.getConexaoMySQL();
+
+					java.sql.Statement st = con.createStatement();
+
+					String comando = "select categoriamodelo_nome from tbl_categoriamodelo;";
+
+					String y = JOptionPane
+							.showInputDialog("Digite o nome da nova gategoria: ");
+
+					ResultSet resultSet = st.executeQuery(comando);
+
+					while (resultSet.next()) {
+
+						String nome = resultSet
+								.getString("categoriamodelo_nome");
+
+						if (nome.equals(y)) {
+							JOptionPane.showMessageDialog(null,
+									"Já existe essa categoria");
+
+							break;
+						} else {
+							st.execute("insert into tbl_categoriamodelo set categoriamodelo_nome ='"
+									+ y + "';");
+
+							// fala q executou co sucesso
+							JOptionPane.showMessageDialog(null,
+									"Categoria cadastrada com sucesso!");
+
+							break;
+						}
+
+					}
+
+					resultSet.close();
+
+					st.close();
+					// fecha a concxão
+					con.close();
+
+				}
+
+				catch (Exception ee) {
+
+					JOptionPane.showMessageDialog(null, "Falha no cadastro");
+
+					ee.printStackTrace();
+				}
+
+				// carrega as categorias
+
+				String comando = "select categoriamodelo_nome from tbl_categoriamodelo;";
+
+				try {
+
+					Class.forName("com.mysql.jdbc.Driver");
+
+					// Criando conexão.
+					java.sql.Connection con = ConexaoMySQL.getConexaoMySQL();
+					java.sql.Statement st = con.createStatement();
+
+					ResultSet resultSet = st.executeQuery(comando);
+
+					cbcategoria.removeAllItems();
+
+					while (resultSet.next()) {
+
+						String nome = resultSet
+								.getString("categoriamodelo_nome");
+
+						cbcategoria.addItem(nome);
+
+					}
+
+					st.close();
+					con.close();
+
+				}// fim do try
+				catch (Exception eee) {
+					eee.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Falha na consulta");
+				}
+
+				
+				
+				
+				
+			}
+		});
+		button.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		button.setBounds(142, 486, 236, 16);
+		contentPane.add(button);
+		setLocationRelativeTo(null);
+		
+		
+		btnLimpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			
+				tfnome.setText("");
+		tfdescricao.setText("");
+			tfcustomaodeobra.setText("");
+			tfcustofinal.setText("");
+			cbcategoria.setSelectedIndex(0);
+			
+			
+			}
+		});
+		
+		
+		
+		
+		
+	}
+}

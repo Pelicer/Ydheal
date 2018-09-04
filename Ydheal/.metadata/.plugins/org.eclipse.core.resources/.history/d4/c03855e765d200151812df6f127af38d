@@ -1,0 +1,199 @@
+package modelSuplerclasses;
+
+public class Modelo {
+	// Atributos
+	private int id;
+	private Double custoMaterial;
+	private Double valorModelo;
+	private Double custoMaoDeObra;
+	private String nomeModelo;
+	private int materialId1;
+	private int materialId2;
+	private int materialId3;
+	private int materialId4;
+	private int materialId5;
+	private int materialId6;
+	private int materialId7;
+	private int materialId8;
+	private int materialId9;
+	private int materialId10;
+	private String listaCusto;
+	private String descricaoModelo;
+	private String Categoria;
+
+	public Modelo() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Modelo(int id, Double custoMaterial, Double valorModelo,
+			Double custoMaoDeObra, String nomeModelo, int materialId1,
+			int materialId2, int materialId3, int materialId4, int materialId5,
+			int materialId6, int materialId7, int materialId8, int materialId9,
+			int materialId10, String listaCusto, String descricaoModelo,
+			String categoria) {
+		this.id = id;
+		this.custoMaterial = custoMaterial;
+		this.valorModelo = valorModelo;
+		this.custoMaoDeObra = custoMaoDeObra;
+		this.nomeModelo = nomeModelo;
+		this.materialId1 = materialId1;
+		this.materialId2 = materialId2;
+		this.materialId3 = materialId3;
+		this.materialId4 = materialId4;
+		this.materialId5 = materialId5;
+		this.materialId6 = materialId6;
+		this.materialId7 = materialId7;
+		this.materialId8 = materialId8;
+		this.materialId9 = materialId9;
+		this.materialId10 = materialId10;
+		this.listaCusto = listaCusto;
+		this.descricaoModelo = descricaoModelo;
+		Categoria = categoria;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Double getCustoMaterial() {
+		return custoMaterial;
+	}
+
+	public void setCustoMaterial(Double custoMaterial) {
+		this.custoMaterial = custoMaterial;
+	}
+
+	public Double getValorModelo() {
+		return valorModelo;
+	}
+
+	public void setValorModelo(Double valorModelo) {
+		this.valorModelo = valorModelo;
+	}
+
+	public Double getCustoMaoDeObra() {
+		return custoMaoDeObra;
+	}
+
+	public void setCustoMaoDeObra(Double custoMaoDeObra) {
+		this.custoMaoDeObra = custoMaoDeObra;
+	}
+
+	public String getNomeModelo() {
+		return nomeModelo;
+	}
+
+	public void setNomeModelo(String nomeModelo) {
+		this.nomeModelo = nomeModelo;
+	}
+
+	public int getMaterialId1() {
+		return materialId1;
+	}
+
+	public void setMaterialId1(int materialId1) {
+		this.materialId1 = materialId1;
+	}
+
+	public int getMaterialId2() {
+		return materialId2;
+	}
+
+	public void setMaterialId2(int materialId2) {
+		this.materialId2 = materialId2;
+	}
+
+	public int getMaterialId3() {
+		return materialId3;
+	}
+
+	public void setMaterialId3(int materialId3) {
+		this.materialId3 = materialId3;
+	}
+
+	public int getMaterialId4() {
+		return materialId4;
+	}
+
+	public void setMaterialId4(int materialId4) {
+		this.materialId4 = materialId4;
+	}
+
+	public int getMaterialId5() {
+		return materialId5;
+	}
+
+	public void setMaterialId5(int materialId5) {
+		this.materialId5 = materialId5;
+	}
+
+	public int getMaterialId6() {
+		return materialId6;
+	}
+
+	public void setMaterialId6(int materialId6) {
+		this.materialId6 = materialId6;
+	}
+
+	public int getMaterialId7() {
+		return materialId7;
+	}
+
+	public void setMaterialId7(int materialId7) {
+		this.materialId7 = materialId7;
+	}
+
+	public int getMaterialId8() {
+		return materialId8;
+	}
+
+	public void setMaterialId8(int materialId8) {
+		this.materialId8 = materialId8;
+	}
+
+	public int getMaterialId9() {
+		return materialId9;
+	}
+
+	public void setMaterialId9(int materialId9) {
+		this.materialId9 = materialId9;
+	}
+
+	public int getMaterialId10() {
+		return materialId10;
+	}
+
+	public void setMaterialId10(int materialId10) {
+		this.materialId10 = materialId10;
+	}
+
+	public String getListaCusto() {
+		return listaCusto;
+	}
+
+	public void setListaCusto(String listaCusto) {
+		this.listaCusto = listaCusto;
+	}
+
+	public String getDescricaoModelo() {
+		return descricaoModelo;
+	}
+
+	public void setDescricaoModelo(String descricaoModelo) {
+		this.descricaoModelo = descricaoModelo;
+	}
+
+	public String getCategoria() {
+		return Categoria;
+	}
+
+	public void setCategoria(String categoria) {
+		Categoria = categoria;
+	}
+
+}

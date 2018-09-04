@@ -1,0 +1,162 @@
+package view.jFrames;
+
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import ComandosMysql.ConexaoMySQL;
+
+import com.toedter.calendar.JDateChooser;
+
+import javax.swing.SwingConstants;
+
+import modelSuplerclasses.Visita;
+
+public class JFAlterarVisitas extends JDialog {
+
+	private JPanel contentPane;
+	private JTextField tfNomeCliente;
+	private JTextField tfEndereco;
+	private JTextField tfTelefone;
+	private JTextField tfObs;
+
+	/**
+	 * Create the frame.
+	 */
+	public JFAlterarVisitas() {
+		setTitle("Cadastro Visitas");
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 380, 370);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+	
+				
+		Visita visita = new Visita();
+		
+
+		JLabel lblNewLabel = new JLabel("Nome:");
+		lblNewLabel.setBounds(10, 149, 80, 14);
+		contentPane.add(lblNewLabel);
+
+		tfNomeCliente = new JTextField();
+		tfNomeCliente.setBounds(118, 149, 234, 20);
+		contentPane.add(tfNomeCliente);
+		tfNomeCliente.setColumns(10);
+
+		JLabel lblEndereoDoCliente = new JLabel("Endere\u00E7o:");
+		lblEndereoDoCliente.setBounds(10, 180, 80, 14);
+		contentPane.add(lblEndereoDoCliente);
+
+		tfEndereco = new JTextField();
+		tfEndereco.setBounds(118, 177, 234, 20);
+		contentPane.add(tfEndereco);
+		tfEndereco.setColumns(10);
+
+		JLabel lblTelefone = new JLabel("Telefone:");
+		lblTelefone.setBounds(10, 211, 80, 14);
+		contentPane.add(lblTelefone);
+
+		tfTelefone = new JTextField();
+		tfTelefone.setBounds(118, 208, 234, 20);
+		contentPane.add(tfTelefone);
+		tfTelefone.setColumns(10);
+
+		JLabel lblNewLabel_1 = new JLabel("Dia da Visita:");
+		lblNewLabel_1.setBounds(10, 118, 80, 14);
+		contentPane.add(lblNewLabel_1);
+
+		JDateChooser dtVisita = new JDateChooser();
+		dtVisita.setBounds(118, 118, 132, 20);
+		contentPane.add(dtVisita);
+
+		JLabel lblHorro = new JLabel("Hor\u00E1ro:");
+		lblHorro.setBounds(10, 93, 65, 14);
+		contentPane.add(lblHorro);
+
+		JSpinner jsHora = new JSpinner();
+		jsHora.setBounds(118, 87, 47, 20);
+		contentPane.add(jsHora);
+
+		JSpinner jsMinutos = new JSpinner();
+		jsMinutos.setBounds(167, 87, 47, 20);
+		contentPane.add(jsMinutos);
+
+		JLabel lblObservao = new JLabel("Observa\u00E7\u00E3o:");
+		lblObservao.setBounds(10, 239, 80, 14);
+		contentPane.add(lblObservao);
+
+		tfObs = new JTextField();
+		tfObs.setHorizontalAlignment(SwingConstants.LEFT);
+		tfObs.setBounds(118, 239, 234, 50);
+		contentPane.add(tfObs);
+		tfObs.setColumns(10);
+
+		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+				
+			
+			
+				
+				
+			// UPDATE `funcionarios` SET `nome` = "Diego Macêdo", `funcao` = "Desenvolvedor Web" WHERE `id_funcionario` = 10;
+			
+			
+			}
+		});
+		btnSalvar.setToolTipText("Salvar Dados");
+		btnSalvar.setBounds(10, 300, 114, 20);
+		contentPane.add(btnSalvar);
+
+		JButton btnLimpar = new JButton("Limpar");
+		btnLimpar.setToolTipText("Limpar Campos");
+		btnLimpar.setBounds(124, 300, 114, 20);
+		contentPane.add(btnLimpar);
+
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setToolTipText("Cancelar");
+		btnCancelar.setBounds(238, 300, 114, 20);
+		contentPane.add(btnCancelar);
+
+		JLabel lblCadastroDeVisitas = new JLabel("Altera\u00E7\u00E3o de Visita");
+		lblCadastroDeVisitas.setIcon(new ImageIcon("C:\\Users\\wordf\\Dropbox\\Backup\\Escola\\ETEC - 2015\\TCC\\workspace\\Serralheria\\src\\resourcers\\icon\\50px\\visita.png"));
+		lblCadastroDeVisitas.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblCadastroDeVisitas.setBounds(10, 11, 343, 50);
+		contentPane.add(lblCadastroDeVisitas);
+
+		JSeparator separator = new JSeparator();
+		separator.setBounds(0, 72, 374, 2);
+		contentPane.add(separator);
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnLimpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tfEndereco.setText("");
+				tfNomeCliente.setText("");
+				tfTelefone.setText("");
+				tfObs.setText("");
+				jsHora.grabFocus();
+			}
+		});
+	
+	}
+}

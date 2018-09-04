@@ -1,0 +1,132 @@
+package view;
+
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import ComandosMysql.Validacaologin;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class JFTelalogin extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField txtlogin;
+	private JPasswordField txtsenha;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					JFTelalogin frame = new JFTelalogin();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public JFTelalogin() {
+		setTitle("Login");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 356, 238);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+
+		// inicia no centro da tela
+		setLocationRelativeTo(null);
+
+		JLabel lblLogin = new JLabel("login: ");
+		lblLogin.setBounds(27, 90, 46, 14);
+		contentPane.add(lblLogin);
+
+		JLabel lblSenha = new JLabel("Senha: ");
+		lblSenha.setBounds(27, 122, 46, 14);
+		contentPane.add(lblSenha);
+
+		txtlogin = new JTextField();
+		txtlogin.setBounds(71, 87, 145, 20);
+		contentPane.add(txtlogin);
+		txtlogin.setColumns(10);
+
+		txtsenha = new JPasswordField();
+		txtsenha.setBounds(71, 119, 145, 20);
+		contentPane.add(txtsenha);
+		txtsenha.setColumns(10);
+
+		JLabel lblEsqueceuSuaSenha = new JLabel("Esqueceu sua senha?");
+		lblEsqueceuSuaSenha.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+
+				JOptionPane.showMessageDialog(null,
+						"Falta criar a tela para isso kk");
+
+			}
+		});
+		lblEsqueceuSuaSenha.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEsqueceuSuaSenha.setBounds(201, 174, 129, 14);
+		contentPane.add(lblEsqueceuSuaSenha);
+
+		JLabel lblNewLabel = new JLabel("Serralheria Ydheal");
+		lblNewLabel.setForeground(new Color(0, 100, 0));
+		lblNewLabel.setFont(new Font("Times New Roman",
+				Font.BOLD | Font.ITALIC, 34));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(0, 23, 340, 53);
+		contentPane.add(lblNewLabel);
+
+		JButton btnEntrar = new JButton("Entrar");
+		btnEntrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				Validacaologin Validar = new Validacaologin();
+
+				if (Validar.Logar(txtlogin.getText(),
+						String.valueOf(txtsenha.getPassword()))) {
+
+					JOptionPane.showMessageDialog(null, "logado com sucesso!");
+
+				} else {
+					JOptionPane.showMessageDialog(null, "Falha no login");
+				}
+
+			}
+		});
+		btnEntrar.setBounds(241, 102, 89, 23);
+		contentPane.add(btnEntrar);
+
+		JButton btnSair = new JButton("Sair");
+		btnSair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				System.exit(0);
+
+			}
+		});
+		btnSair.setBounds(10, 170, 89, 23);
+		contentPane.add(btnSair);
+	}
+}

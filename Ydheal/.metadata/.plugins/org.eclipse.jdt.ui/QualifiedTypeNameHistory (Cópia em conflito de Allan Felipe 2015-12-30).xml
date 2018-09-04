@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="controller.ConexaoMySQL"/>
+<fullyQualifiedTypeName name="java.sql.Connection"/>
+<fullyQualifiedTypeName name="controller.Validar_login"/>
+<fullyQualifiedTypeName name="java.util.concurrent.ExecutionException"/>
+<fullyQualifiedTypeName name="ComandosMysql.Validacaologin"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="view.JFTelaesqueciminhasenha"/>
+<fullyQualifiedTypeName name="org.apache.commons.mail.SimpleEmail"/>
+<fullyQualifiedTypeName name="javax.mail.Authenticator"/>
+<fullyQualifiedTypeName name="java.net.Authenticator"/>
+<fullyQualifiedTypeName name="java.net.PasswordAuthentication"/>
+<fullyQualifiedTypeName name="org.apache.commons.mail.DefaultAuthenticator"/>
+<fullyQualifiedTypeName name="java.util.Properties"/>
+<fullyQualifiedTypeName name="javax.mail.Session"/>
+<fullyQualifiedTypeName name="javax.mail.internet.MimeMessage"/>
+<fullyQualifiedTypeName name="javax.mail.Address"/>
+<fullyQualifiedTypeName name="javax.mail.internet.InternetAddress"/>
+<fullyQualifiedTypeName name="javax.mail.Message"/>
+<fullyQualifiedTypeName name="javax.mail.Transport"/>
+<fullyQualifiedTypeName name="org.omg.CORBA.DefinitionKind"/>
+<fullyQualifiedTypeName name="org.apache.commons.mail.Email"/>
+<fullyQualifiedTypeName name="java.lang.Runnable"/>
+<fullyQualifiedTypeName name="ComandosMysql.ConexaoMySQL"/>
+<fullyQualifiedTypeName name="ComandosMysql.Buscastelainicial"/>
+<fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
+<fullyQualifiedTypeName name="java.awt.Graphics"/>
+<fullyQualifiedTypeName name="java.awt.Graphics2D"/>
+</qualifiedTypeNameHistroy>

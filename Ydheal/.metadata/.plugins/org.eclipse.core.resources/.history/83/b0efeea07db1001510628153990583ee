@@ -1,0 +1,708 @@
+package view.jFrames;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
+import java.sql.Connection;
+import java.sql.ResultSet;
+
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import ComandosMysql.ConexaoMySQL;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Color;
+
+import javax.swing.SwingConstants;
+
+import view.jDialogs.JDFechar;
+import view.jFrames.cadastros.JFCClientes;
+import view.jFrames.cadastros.JFCMateriais;
+import view.jFrames.cadastros.JFCOrcamento;
+import view.jFrames.cadastros.JFCPedido;
+import view.jFrames.cadastros.JFCVisitas;
+
+import java.awt.Toolkit;
+
+public class AWTelainicial extends JFrame {
+
+	public JFrame frmSerralheriaYdheal;
+	private JTable tbl_visitas;
+	private JTable tabletbl_visitas;
+	private JTable tabletbl_pedidos;
+	private JTable tabletbl_pagamentos;
+	private JTable tabletbl_instalacoes;
+	private JTable tabletbl_materiais;
+
+	/**
+	 * Create the application.
+	 */
+	public AWTelainicial() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frmSerralheriaYdheal = new JFrame();
+		frmSerralheriaYdheal
+				.setIconImage(Toolkit
+						.getDefaultToolkit()
+						.getImage(
+								"C:\\Users\\wordf\\Dropbox\\Backup\\Escola\\ETEC - 2015\\TCC\\workspace\\Serralheria\\src\\resourcers\\icon\\logo.png"));
+		frmSerralheriaYdheal.setTitle("Serralheria Ydheal");
+		frmSerralheriaYdheal.setBounds(100, 100, 1446, 707);
+		frmSerralheriaYdheal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		// inicia no centro da tela
+		frmSerralheriaYdheal.setLocationRelativeTo(null);
+
+		// criação dos modelos das tabelas
+
+		DefaultTableModel modelotbl_visitas = new DefaultTableModel();
+		DefaultTableModel modelotbl_materiais = new DefaultTableModel();
+		DefaultTableModel modelotbl_pedidos = new DefaultTableModel();
+		DefaultTableModel modelotbl_pagamentos = new DefaultTableModel();
+		DefaultTableModel modelotbl_instalacoes = new DefaultTableModel();
+
+		JMenuBar menuBar = new JMenuBar();
+		frmSerralheriaYdheal.setJMenuBar(menuBar);
+
+		JMenuItem menuItem = new JMenuItem("");
+		menuItem.setBackground(Color.WHITE);
+		menuItem.setIcon(new ImageIcon(
+				"C:\\Users\\wordf\\Dropbox\\Backup\\Escola\\ETEC - 2015\\TCC\\workspace\\Serralheria\\src\\resourcers\\icon\\logo.png"));
+		menuBar.add(menuItem);
+
+		JMenuItem mntmClientes = new JMenuItem("Clientes");
+		mntmClientes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Abre a tela JFClientes.
+				try {
+					JFClientes frame = new JFClientes();
+					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+				} catch (Exception erroCliente) {
+					erroCliente.printStackTrace();
+				}
+			}
+		});
+		mntmClientes.setHorizontalAlignment(SwingConstants.CENTER);
+		mntmClientes
+				.setIcon(new ImageIcon(
+						"C:\\Users\\wordf\\Dropbox\\Backup\\Escola\\ETEC - 2015\\TCC\\workspace\\Serralheria\\src\\resourcers\\icon\\50px\\cliente.png"));
+		mntmClientes.setBackground(Color.WHITE);
+		menuBar.add(mntmClientes);
+
+		JMenuItem mntmPedidos = new JMenuItem("Pedidos");
+		mntmPedidos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					JFPedidos frame = new JFPedidos();
+					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+				} catch (Exception erro) {
+					erro.printStackTrace();
+				}
+			}
+		});
+		mntmPedidos
+				.setIcon(new ImageIcon(
+						"C:\\Users\\wordf\\Dropbox\\Backup\\Escola\\ETEC - 2015\\TCC\\workspace\\Serralheria\\src\\resourcers\\icon\\50px\\pedidos.png"));
+		mntmPedidos.setHorizontalAlignment(SwingConstants.CENTER);
+		mntmPedidos.setBackground(Color.WHITE);
+		menuBar.add(mntmPedidos);
+
+		JMenuItem mntmOramentos = new JMenuItem("Or\u00E7amentos");
+		mntmOramentos
+				.setIcon(new ImageIcon(
+						"C:\\Users\\wordf\\Dropbox\\Backup\\Escola\\ETEC - 2015\\TCC\\workspace\\Serralheria\\src\\resourcers\\icon\\50px\\orcamento.png"));
+		mntmOramentos.setHorizontalAlignment(SwingConstants.CENTER);
+		mntmOramentos.setBackground(Color.WHITE);
+		menuBar.add(mntmOramentos);
+
+		JMenuItem mntmVisita = new JMenuItem("Visita");
+		mntmVisita.setHorizontalAlignment(SwingConstants.CENTER);
+		mntmVisita
+				.setIcon(new ImageIcon(
+						"C:\\Users\\wordf\\Dropbox\\Backup\\Escola\\ETEC - 2015\\TCC\\workspace\\Serralheria\\src\\resourcers\\icon\\50px\\visita.png"));
+		mntmVisita.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// Abre a tela JFVisitas.
+				try {
+					JFVisitas frame = new JFVisitas();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		mntmVisita.setBackground(Color.WHITE);
+		menuBar.add(mntmVisita);
+
+		JMenuItem mntmPagamentos = new JMenuItem("Pagamentos");
+		mntmPagamentos
+				.setIcon(new ImageIcon(
+						"C:\\Users\\wordf\\Dropbox\\Backup\\Escola\\ETEC - 2015\\TCC\\workspace\\Serralheria\\src\\resourcers\\icon\\50px\\pagamento.png"));
+		mntmPagamentos.setHorizontalAlignment(SwingConstants.CENTER);
+		mntmPagamentos.setBackground(Color.WHITE);
+		menuBar.add(mntmPagamentos);
+
+		JMenuItem mntmEstoque = new JMenuItem("Estoque");
+		mntmEstoque.setHorizontalAlignment(SwingConstants.CENTER);
+		mntmEstoque
+				.setIcon(new ImageIcon(
+						"C:\\Users\\wordf\\Dropbox\\Backup\\Escola\\ETEC - 2015\\TCC\\workspace\\Serralheria\\src\\resourcers\\icon\\50px\\estoque.png"));
+		mntmEstoque.setBackground(Color.WHITE);
+		menuBar.add(mntmEstoque);
+
+		JMenuItem mntmRelatrios = new JMenuItem("Relat\u00F3rios");
+		mntmRelatrios
+				.setIcon(new ImageIcon(
+						"C:\\Users\\wordf\\Dropbox\\Backup\\Escola\\ETEC - 2015\\TCC\\workspace\\Serralheria\\src\\resourcers\\icon\\50px\\relatorio.png"));
+		mntmRelatrios.setHorizontalAlignment(SwingConstants.CENTER);
+		mntmRelatrios.setBackground(Color.WHITE);
+		menuBar.add(mntmRelatrios);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					JFMaterial frame = new JFMaterial();
+					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			}
+		});
+		mntmNewMenuItem.setIcon(new ImageIcon("C:\\Users\\wordf\\Dropbox\\Backup\\Escola\\ETEC - 2015\\TCC\\workspace\\Serralheria\\src\\resourcers\\icon\\50px\\materiais.png"));
+		menuBar.add(mntmNewMenuItem);
+
+		JMenuItem mntmAmstras = new JMenuItem("Am\u00F3stras");
+		mntmAmstras
+				.setIcon(new ImageIcon(
+						"C:\\Users\\wordf\\Dropbox\\Backup\\Escola\\ETEC - 2015\\TCC\\workspace\\Serralheria\\src\\resourcers\\icon\\50px\\amostra.png"));
+		mntmAmstras.setHorizontalAlignment(SwingConstants.CENTER);
+		mntmAmstras.setBackground(Color.WHITE);
+		menuBar.add(mntmAmstras);
+
+		JMenuItem mntmSair = new JMenuItem("");
+		mntmSair.setHorizontalAlignment(SwingConstants.RIGHT);
+		mntmSair.setBackground(Color.WHITE);
+		mntmSair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					JDFechar dialog = new JDFechar();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setVisible(true);
+					dialog.setLocationRelativeTo(null);
+				} catch (Exception erro) {
+					erro.printStackTrace();
+				}
+
+			}
+		});
+		mntmSair.setIcon(new ImageIcon(
+				"C:\\Users\\wordf\\Dropbox\\Backup\\Escola\\ETEC - 2015\\TCC\\workspace\\Serralheria\\src\\resourcers\\icon\\shutdown.png"));
+		menuBar.add(mntmSair);
+
+		JPanel panel = new JPanel();
+		frmSerralheriaYdheal.getContentPane().add(panel, BorderLayout.CENTER);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+
+		JPanel panel_1 = new JPanel();
+		panel.add(panel_1);
+		panel_1.setLayout(new GridLayout(0, 1, 0, 0));
+
+		class BackgroundButton extends javax.swing.JButton {
+			// Carrega a sua imagem
+			ImageIcon imagem = new ImageIcon(this.getClass().getResource(
+					"C:/Users/Strabello/Desktop/Sem Título-2.png"));
+
+			// criar uma subclasse de JButton e sobreescrever o método
+			// paintComponent, para desenhar a imagem antes de colocar o texto
+			// faz a imagem ficar no fundo
+
+			public void paintComponent(Graphics g) {
+
+				((Graphics2D) g).setRenderingHint(
+						RenderingHints.KEY_ANTIALIASING,
+						RenderingHints.VALUE_ANTIALIAS_ON);
+
+				final Image backgroundImage = imagem.getImage();
+				double scaleX = getWidth()
+						/ (double) backgroundImage.getWidth(null);
+				double scaleY = getHeight()
+						/ (double) backgroundImage.getHeight(null);
+				AffineTransform xform = AffineTransform.getScaleInstance(
+						scaleX, scaleY);
+				((Graphics2D) g).drawImage(backgroundImage, xform, this);
+
+				String texto = this.getText();
+
+				// Find the size of string s in font f in the current Graphics
+				// context g.
+				Font font = new Font("Dialog", Font.PLAIN, 11);
+				java.awt.FontMetrics fm = g.getFontMetrics(font);
+				java.awt.geom.Rectangle2D rect = fm.getStringBounds(texto, g);
+
+				int textWidth = (int) (rect.getWidth());
+				int textHeight = (int) (rect.getHeight());
+
+				Dimension size = this.getSize();
+
+				int x = (size.width - textWidth) / 2;
+				int y = (size.height - textHeight) / 2 + fm.getAscent();
+
+				g.drawString(texto, x, y);
+
+			}
+		}
+
+		JButton btnNewButton_1 = new JButton("");
+		btnNewButton_1.setBackground(Color.WHITE);
+		btnNewButton_1.setToolTipText("Cadastrar Visita");
+		btnNewButton_1
+				.setIcon(new ImageIcon(
+						"C:\\Users\\wordf\\Dropbox\\Backup\\Escola\\ETEC - 2015\\TCC\\workspace\\Serralheria\\src\\resourcers\\icon\\100x\\visita.png"));
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Abre o formulário de cadastro de visitas.
+				try {
+					JFCVisitas frame = new JFCVisitas();
+					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+				} catch (Exception error) {
+					error.printStackTrace();
+				}
+			}
+		});
+		// JButton.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+		// JButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+		btnNewButton_1.setBorder(null);
+		panel_1.add(btnNewButton_1);
+
+		JButton btnNewButton_3 = new JButton("");
+		btnNewButton_3.setBackground(Color.WHITE);
+		btnNewButton_3.setToolTipText("Cadastrar Cliente");
+		btnNewButton_3
+				.setIcon(new ImageIcon(
+						"C:\\Users\\wordf\\Dropbox\\Backup\\Escola\\ETEC - 2015\\TCC\\workspace\\Serralheria\\src\\resourcers\\icon\\100x\\cliente.png"));
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Abre o formulário de cadastro de clientes.
+				try {
+					JFCClientes frame = new JFCClientes();
+					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+				} catch (Exception error) {
+					error.printStackTrace();
+				}
+			}
+		});
+		panel_1.add(btnNewButton_3);
+
+		JButton btnNewButton_2 = new JButton("");
+		btnNewButton_2.setBackground(Color.WHITE);
+		btnNewButton_2.setToolTipText("Cadastrar Pedido");
+		btnNewButton_2
+				.setIcon(new ImageIcon(
+						"C:\\Users\\wordf\\Dropbox\\Backup\\Escola\\ETEC - 2015\\TCC\\workspace\\Serralheria\\src\\resourcers\\icon\\100x\\pedidos.png"));
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Abre o formulário de cadastro de pedidos.
+				try {
+					JFCPedido frame = new JFCPedido();
+					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+				} catch (Exception error) {
+					error.printStackTrace();
+				}
+			}
+		});
+		panel_1.add(btnNewButton_2);
+
+		JButton btnNewButton = new JButton("");
+		btnNewButton.setBackground(Color.WHITE);
+		btnNewButton.setToolTipText("Cadastrar Or\u00E7amento");
+		btnNewButton
+				.setIcon(new ImageIcon(
+						"C:\\Users\\wordf\\Dropbox\\Backup\\Escola\\ETEC - 2015\\TCC\\workspace\\Serralheria\\src\\resourcers\\icon\\100x\\orcamento.png"));
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Abre o formulário de cadastro de orçamentos.
+				try {
+					JFCOrcamento frame = new JFCOrcamento();
+					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+				} catch (Exception error) {
+					error.printStackTrace();
+				}
+			}
+		});
+		panel_1.add(btnNewButton);
+
+		JButton btnNewButton_4 = new JButton("");
+		btnNewButton_4.setBackground(Color.WHITE);
+		btnNewButton_4.setToolTipText("Cadastrar Material");
+		btnNewButton_4
+				.setIcon(new ImageIcon(
+						"C:\\Users\\wordf\\Dropbox\\Backup\\Escola\\ETEC - 2015\\TCC\\workspace\\Serralheria\\src\\resourcers\\icon\\100x\\materiais.png"));
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Abre o formulário de cadastro de materiais.
+				try {
+					JFCMateriais frame = new JFCMateriais();
+					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+				} catch (Exception error) {
+					error.printStackTrace();
+				}
+			}
+		});
+		btnNewButton_4.setBorder(null);
+
+		panel_1.add(btnNewButton_4);
+
+		JScrollPane scrollPanetbl_visita = new JScrollPane();
+		panel.add(scrollPanetbl_visita);
+
+		// add colunas
+		modelotbl_visitas.addColumn("Cod.");
+		modelotbl_visitas.addColumn("Cliente");
+
+		// crio a jtable com o modelo como construtor(parametro)
+		tabletbl_visitas = new JTable(modelotbl_visitas) {
+
+			// torno as céculas não editaveis
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+
+		};
+		// no fim da moddificação da célula editavel, vem a deteqção de evento
+		// de cliq dublo em um registro da jtable.
+		tabletbl_visitas.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+
+					// colocar para abrir o a visita selecionada no clique.
+					JOptionPane.showMessageDialog(null,
+							"duplo-clique detectado");
+
+				}
+			}
+		});
+		// fim da detecção de duplo clique
+
+		// define o tamanho da coluna, nesse caso, reduz a código
+		tabletbl_visitas.getColumnModel().getColumn(1).setPreferredWidth(270);
+
+		scrollPanetbl_visita.setViewportView(tabletbl_visitas);
+
+		JList list = new JList();
+		panel.add(list);
+
+		JScrollPane scrollPanetbl_materiais = new JScrollPane();
+		panel.add(scrollPanetbl_materiais);
+
+		{
+			// add colunas
+			modelotbl_materiais.addColumn("Cod.");
+			modelotbl_materiais.addColumn("Materiais à pedir");
+
+			// crio a jtable com o modelo como construtor(parametro)
+			tabletbl_materiais = new JTable(modelotbl_materiais) {
+
+				// torno as céculas não editaveis da table acima /\
+				public boolean isCellEditable(int row, int column) {
+					return false;
+				}
+
+			};
+			// no fim da moddificação da célula editavel, vem a deteqção de
+			// evento de cliq dublo em um registro da jtable.
+			tabletbl_materiais.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					if (e.getClickCount() == 2) {
+
+						// colocar para abrir o a visita selecionada no clique.
+						JOptionPane.showMessageDialog(null,
+								"duplo-clique detectado");
+
+					}
+				}
+			});
+			// fim da detecção de duplo clique
+
+			// define o tamanho da coluna, nesse caso, reduz a código
+			tabletbl_materiais.getColumnModel().getColumn(1)
+					.setPreferredWidth(270);
+
+		}
+		scrollPanetbl_materiais.setViewportView(tabletbl_materiais);
+
+		JScrollPane scrollPanetbl_pedidos = new JScrollPane();
+		panel.add(scrollPanetbl_pedidos);
+
+		{
+			// add colunas
+			modelotbl_pedidos.addColumn("Cod.");
+			modelotbl_pedidos.addColumn("Pedidos em aberto");
+
+			// crio a jtable com o modelo como construtor(parametro)
+			tabletbl_pedidos = new JTable(modelotbl_pedidos) {
+
+				// torno as céculas não editaveis da table acima /\
+				public boolean isCellEditable(int row, int column) {
+					return false;
+				}
+
+			};
+			// no fim da moddificação da célula editavel, vem a deteqção de
+			// evento de cliq dublo em um registro da jtable.
+			tabletbl_pedidos.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					if (e.getClickCount() == 2) {
+
+						// colocar para abrir o a visita selecionada no clique.
+						JOptionPane.showMessageDialog(null,
+								"duplo-clique detectado");
+
+					}
+				}
+			});
+			// fim da detecção de duplo clique
+
+			// define o tamanho da coluna, nesse caso, reduz a código
+			tabletbl_pedidos.getColumnModel().getColumn(1)
+					.setPreferredWidth(270);
+
+		}
+		scrollPanetbl_pedidos.setViewportView(tabletbl_pedidos);
+
+		JScrollPane scrollPanetbl_pagamentos = new JScrollPane();
+		panel.add(scrollPanetbl_pagamentos);
+
+		{
+			// add colunas
+			modelotbl_pagamentos.addColumn("Cod.");
+			modelotbl_pagamentos.addColumn("Pagamentos pendentes");
+
+			// crio a jtable com o modelo como construtor(parametro)
+			tabletbl_pagamentos = new JTable(modelotbl_pagamentos) {
+
+				// torno as céculas não editaveis da table acima /\
+				public boolean isCellEditable(int row, int column) {
+					return false;
+				}
+
+			};
+			// no fim da moddificação da célula editavel, vem a deteqção de
+			// evento de cliq dublo em um registro da jtable.
+			tabletbl_pagamentos.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					if (e.getClickCount() == 2) {
+
+						// colocar para abrir o a visita selecionada no clique.
+						JOptionPane.showMessageDialog(null,
+								"duplo-clique detectado");
+
+					}
+				}
+			});
+			// fim da detecção de duplo clique
+
+			// define o tamanho da coluna, nesse caso, reduz a código
+			tabletbl_pagamentos.getColumnModel().getColumn(1)
+					.setPreferredWidth(270);
+
+		}
+
+		scrollPanetbl_pagamentos.setViewportView(tabletbl_pagamentos);
+
+		JScrollPane scrollPanetbl_instalacoes = new JScrollPane();
+		panel.add(scrollPanetbl_instalacoes);
+
+		{
+			// add colunas
+			modelotbl_instalacoes.addColumn("Cod.");
+			modelotbl_instalacoes.addColumn("Instalações pendentes");
+
+			// crio a jtable com o modelo como construtor(parametro)
+			tabletbl_instalacoes = new JTable(modelotbl_instalacoes) {
+
+				// torno as céculas não editaveis da table acima /\
+				public boolean isCellEditable(int row, int column) {
+					return false;
+				}
+
+			};
+			// no fim da moddificação da célula editavel, vem a deteqção de
+			// evento de cliq dublo em um registro da jtable.
+			tabletbl_instalacoes.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					if (e.getClickCount() == 2) {
+
+						// colocar para abrir o a visita selecionada no clique.
+						JOptionPane.showMessageDialog(null,
+								"duplo-clique detectado");
+
+					}
+				}
+			});
+			// fim da detecção de duplo clique
+
+			// define o tamanho da coluna, nesse caso, reduz a código
+			tabletbl_instalacoes.getColumnModel().getColumn(1)
+					.setPreferredWidth(270);
+
+		}
+
+		scrollPanetbl_instalacoes.setViewportView(tabletbl_instalacoes);
+
+		// ao iniciar, ele começa a carregar as tabelas, de acordo os pedidos,
+		// visitas, clientes, instalações a serem feitos.
+
+		// inicio das buscas e atribuições nas tabelas respctivas. todas com a
+		// mesma conexao
+
+		// busca da tabala visita
+		try {
+			// Busca da tela inicial, visitas
+
+			// cria a conecxão
+			Connection con = ConexaoMySQL.getConexaoMySQL();
+			// cria um estamento
+			java.sql.Statement st = con.createStatement();
+
+			// busca da tabela pedido
+			// Strin com o comando mysql
+			String comando = "select visita_id, visita_nome from tbl_visita where visita_status = 0;";
+			// pega o resultado obtido da execão do comando mysql
+			ResultSet resultSet = st.executeQuery(comando);
+
+			while (resultSet.next()) {
+
+				// cria-se uma variavel que recebe o campo retornado da
+				// consulta, aquis, enquanto tiver resultado, faz algo.
+				String cod = resultSet.getString("visita_id");
+				String nome = resultSet.getString("visita_nome");
+
+				// adiciona uma linha na tabela referente a busca
+				modelotbl_visitas.addRow(new Object[] { cod, nome });
+			}
+			// fim da busaca da tabela pedido
+
+			// inicio da busca da tabela materiais a pedir
+			comando = "select pedido_id, pedido_nivel, pedido_nomedopedido from tbl_pedido where pedido_nivel = 4;";
+			// pega o resultado obtido da execão do comando mysql
+			resultSet = st.executeQuery(comando);
+
+			while (resultSet.next()) {
+
+				// cria-se uma variavel que recebe o campo retornado da
+				// consulta, aquis, enquanto tiver resultado, faz algo.
+				String cod = resultSet.getString("pedido_id");
+				String nome = resultSet.getString("pedido_nomedopedido");
+
+				// adiciona uma linha na tabela referente a busca
+				modelotbl_materiais.addRow(new Object[] { cod, nome });
+			}
+			// fim da busca da tabela materiais a pedir
+
+			// inicio da busca pedidos em aberto
+			comando = "select pedido_id, pedido_nivel, pedido_nomedopedido from tbl_pedido where pedido_nivel = 6;";
+			// pega o resultado obtido da execão do comando mysql
+			resultSet = st.executeQuery(comando);
+
+			while (resultSet.next()) {
+
+				// cria-se uma variavel que recebe o campo retornado da
+				// consulta, aquis, enquanto tiver resultado, faz algo.
+				String cod = resultSet.getString("pedido_id");
+				String nome = resultSet.getString("pedido_nomedopedido");
+
+				// adiciona uma linha na tabela referente a busca
+				modelotbl_pedidos.addRow(new Object[] { cod, nome });
+
+			}
+			// fim da busca da tabela pedidos em aberto
+
+			// busca da tabala pedidos em aberto
+			comando = "select pedido_id, pedido_nivel, pedido_nomedopedido from tbl_pedido where pedido_nivel = 8;";
+			// pega o resultado obtido da execão do comando mysql
+			resultSet = st.executeQuery(comando);
+
+			while (resultSet.next()) {
+
+				// cria-se uma variavel que recebe o campo retornado da
+				// consulta, aquis, enquanto tiver resultado, faz algo.
+				String cod = resultSet.getString("pedido_id");
+				String nome = resultSet.getString("pedido_nomedopedido");
+
+				// adiciona uma linha na tabela referente a busca
+				modelotbl_pagamentos.addRow(new Object[] { cod, nome });
+
+			}
+			// fim da busca da tabela pedidos em aberto
+
+			// busca da tabala agendar data de instalçao
+			comando = "select pedido_id, pedido_nivel, pedido_nomedopedido from tbl_pedido where pedido_nivel = 9;";
+			// pega o resultado obtido da execão do comando mysql
+			resultSet = st.executeQuery(comando);
+
+			while (resultSet.next()) {
+
+				// cria-se uma variavel que recebe o campo retornado da
+				// consulta, aquis, enquanto tiver resultado, faz algo.
+				String cod = resultSet.getString("pedido_id");
+				String nome = resultSet.getString("pedido_nomedopedido");
+
+				// adiciona uma linha na tabela referente a busca
+				modelotbl_instalacoes.addRow(new Object[] { cod, nome });
+
+			}
+			// fim da tabala agendar data de instalçao
+
+			st.close();
+			con.close();
+
+		}
+
+		catch (Exception erro) {
+
+			JOptionPane.showMessageDialog(null, "Falha nas consultas");
+
+			erro.printStackTrace();
+		}
+		// fim da busca da tabela visita
+
+	}
+
+}

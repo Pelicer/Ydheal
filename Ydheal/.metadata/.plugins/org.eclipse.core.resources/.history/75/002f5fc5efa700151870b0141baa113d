@@ -1,0 +1,83 @@
+package view;
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JMenu;
+
+public class JDTelainicial extends JDialog {
+
+	private final JPanel contentPanel = new JPanel();
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		try {
+			JDTelainicial dialog = new JDTelainicial();
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Create the dialog.
+	 */
+	public JDTelainicial() {
+		setTitle("Serralheria Ydheal");
+		setBounds(100, 100, 1062, 718);
+		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(new BorderLayout(0, 0));
+		{
+			JPanel panel = new JPanel();
+			contentPanel.add(panel, BorderLayout.CENTER);
+		}
+		{
+			JMenuBar menuBar = new JMenuBar();
+			setJMenuBar(menuBar);
+			{
+				JMenu mnClientes = new JMenu("Clientes");
+				menuBar.add(mnClientes);
+			}
+			{
+				JMenu mnPedidos = new JMenu("Pedidos");
+				menuBar.add(mnPedidos);
+			}
+			{
+				JMenu mnOramento = new JMenu("Or\u00E7amento");
+				menuBar.add(mnOramento);
+			}
+			{
+				JMenu mnVisita = new JMenu("Visita");
+				menuBar.add(mnVisita);
+			}
+			{
+				JMenu mnPagamentos = new JMenu("Pagamentos");
+				menuBar.add(mnPagamentos);
+			}
+			{
+				JMenu mnEstoque = new JMenu("Estoque");
+				menuBar.add(mnEstoque);
+			}
+			{
+				JMenu mnRelatrios = new JMenu("Relat\u00F3rios");
+				menuBar.add(mnRelatrios);
+			}
+			{
+				JMenu mnAmstras = new JMenu("Am\u00F3stras");
+				menuBar.add(mnAmstras);
+			}
+		}
+	}
+
+}

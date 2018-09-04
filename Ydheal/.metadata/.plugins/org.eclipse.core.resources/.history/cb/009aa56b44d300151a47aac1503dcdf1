@@ -1,0 +1,179 @@
+package view.jDialogs;
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
+import view.jFrames.JFVisitas;
+import controller.ConexaoMySQL;
+import modelSuplerclasses.Orcamento;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.sql.ResultSet;
+
+public class JDSelecionarCodigoVisita extends JDialog {
+
+	private final JPanel contentPanel = new JPanel();
+	
+	DefaultTableModel modelo = new DefaultTableModel();
+	
+	private JTextField tfnome;
+	private JTable table;
+
+	/**
+	 * Launch the application.
+	 */
+	
+
+	/**
+	 * Create the dialog.
+	 * @param o 
+	 */
+	public JDSelecionarCodigoVisita(Orcamento o) {
+		setTitle("Selecionar Visita");
+		setBounds(100, 100, 421, 398);
+		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(null);
+		
+		JLabel lblNomeDoCliente = new JLabel("Nome do Cliente:");
+		lblNomeDoCliente.setBounds(10, 15, 112, 14);
+		contentPanel.add(lblNomeDoCliente);
+		
+		tfnome = new JTextField();
+		tfnome.setColumns(10);
+		tfnome.setBounds(132, 12, 125, 20);
+		contentPanel.add(tfnome);
+		////////////////////////////////////////////////////////
+		try {
+			JFVisitas frame = new JFVisitas();
+			frame.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		JButton button = new JButton("Buscar");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+
+					String comando = "select visita_nome, visita_telefone from tbl_visita where visita_nome like '"+ tfnome.getText() +"%' order by visita_nome;";
+
+					while (table.getModel().getRowCount() > 0) {
+						((DefaultTableModel) table.getModel()).removeRow(0);
+					}
+
+					try {
+
+						java.sql.Connection con = ConexaoMySQL.getConexaoMySQL();
+
+						java.sql.Statement st = con.createStatement();
+
+						ResultSet resultSet = st.executeQuery(comando);
+						while (resultSet.next()) {
+							
+							String nome = resultSet.getString("visita_nome");
+							String tel = resultSet.getString("visita_telefone");
+							modelo.addRow(new Object[] { nome,tel });
+							
+						}
+
+					} catch (Exception ee) {
+						ee.printStackTrace();
+					}
+				
+				
+				
+				
+				
+				
+			}
+		});
+		button.setBounds(283, 11, 112, 23);
+		contentPanel.add(button);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 40, 385, 275);
+		contentPanel.add(scrollPane);
+		
+		{
+			modelo.addColumn("Cod.");
+			modelo.addColumn("Nome.");
+
+
+		}
+
+		table = new JTable(modelo) {
+
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+
+		};
+
+		// Impede a reordenação das colunas.
+		table.getTableHeader().setReorderingAllowed(false);
+
+		table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+
+					o.setVisitaId(Integer.parseInt(String.valueOf(modelo.getValueAt(
+							table.getSelectedRow(), 0))));
+
+					
+
+					dispose();
+
+				}
+			}
+		});
+
+
+
+		scrollPane.setViewportView(table);
+		
+		
+		setLocationRelativeTo(null);
+		{
+			JPanel buttonPane = new JPanel();
+			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			{
+				JButton okButton = new JButton("Selecionar");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						
+						o.setVisitaId(Integer.parseInt(String.valueOf(modelo.getValueAt(
+								table.getSelectedRow(), 0))));
+						
+					}
+				});
+				okButton.setActionCommand("OK");
+				buttonPane.add(okButton);
+				getRootPane().setDefaultButton(okButton);
+			}
+			{
+				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.setActionCommand("Cancel");
+				buttonPane.add(cancelButton);
+			}
+		}
+	}
+}
